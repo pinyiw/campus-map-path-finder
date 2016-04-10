@@ -24,14 +24,14 @@ public class HolaWorld extends HelloWorld {
 
         // Print out greetings
         System.out.println(myFirstHW.getGreeting());
-        System.out.println(world.);
+        System.out.println(world.getGreeting());
     }
 
     /**
      @return Returns a greeting (in Spanish).
      */
     public String getGreeting() {
-        return SPANISH_GREE;
+        return SPANISH_GREETING;
     }
 
 }
