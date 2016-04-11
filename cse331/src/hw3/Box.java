@@ -3,8 +3,11 @@
  */
 package hw3;
 
-import java.lang.Iterable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * This is a container can be used to contain Balls. The key
@@ -18,14 +21,15 @@ public class Box implements Iterable<Ball> {
      * ballContainer is used to internally store balls for this Box
      */
     private BallContainer ballContainer;
+    private double max;
 
     /**
      * Constructor that creates a new box.
      * @param maxVolume Total volume of balls that this box can contain.
      */
     public Box(double maxVolume) {
-        // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        ballContainer = new BallContainer();
+        max = maxVolume;
     }
 
     /**
@@ -53,8 +57,25 @@ public class Box implements Iterable<Ball> {
      * if the box is too full to contain the new ball.
      */
     public boolean add(Ball b) {
-        // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        if (ballContainer.getVolume() + b.getVolume() > max) {
+        	return false;
+        } else {
+        	return ballContainer.add(b);
+        }
+    }
+    
+    public class BallComparator implements Comparator<Ball> {
+
+		@Override
+		public int compare(Ball a, Ball b) {
+			// TODO Auto-generated method stub
+			if (a.getVolume() < b.getVolume()) {
+    			return -1;
+    		} else if (a.getVolume() > b.getVolume()) {
+    			return 1;
+    		}
+			return 0;
+		}
     }
 
     /**
@@ -65,8 +86,13 @@ public class Box implements Iterable<Ball> {
      * ascending size.
      */
     public Iterator<Ball> getBallsFromSmallest() {
-        // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        Iterator<Ball> it = ballContainer.iterator();
+        List<Ball> list = new ArrayList<Ball>();
+        while (it.hasNext()) {
+        	list.add(it.next());
+        }
+        Collections.sort(list, new BallComparator());
+        return list.iterator();
     }
 
     /**
