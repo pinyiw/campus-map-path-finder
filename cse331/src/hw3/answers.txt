@@ -29,3 +29,16 @@ b. Using Pre-Defined Data Structures: BallContainer.java
 	time slower than not keeping track of it for add() and remove(). Also, for the
 	first approaches the runtime for getVolume() is O(n), while for the second 
 	approaches it would be O(1).
+c 1.The first way I would implement getBallsFromSmallest() is make a new list field
+	that store all the Ball when ever it is added to or remove from the Box and sort
+	and return the iterator of the list when getBallsFromSmallest() is called.
+	Another way to implement getBallsFromSmallest() is when ever the Ball is added to
+	the Box, sorted it right away, in this case, we would just return the iterator of
+	the list whenever getBallsFromSmallest() is called, since the list is already
+	sorted.
+  2.I would say it depends on how often the add method and getBallsFromSmallest is
+  	called. If we know client will add Ball to Box much more often than
+  	getBallsFromSmallest, then the first way is better, since we won't have to sort the
+  	list a lot of time.
+  	On the other hand, if we know that client will not call a lot of add and will call
+  	getBallFromSmallest very often, the second way will be better.
