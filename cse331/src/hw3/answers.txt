@@ -42,3 +42,4 @@ c 1.The first way I would implement getBallsFromSmallest() is make a new list fi
   	list a lot of time.
   	On the other hand, if we know that client will not call a lot of add and will call
   	getBallFromSmallest very often, the second way will be better.
+  	
