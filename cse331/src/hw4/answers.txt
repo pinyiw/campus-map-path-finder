@@ -74,13 +74,28 @@ Problem 0.
 
 Problem 1.
 
-(a)
+(a) If the fields are no longer required to be stored in reduced form, then
+	hashCode(), equals(), toString() should be changed, since 1/2 and 2/4
+	should be considered the same thing and output the same value, but now
+	before returning their output these methods have to first find the
+	reduced form, which would be less efficient if they are called
+	multiple times.
+	The RatNum(int n, int d) constructor can now don't have to find the gcd,
+	since the Rep Invariant does not required it.
 
+(b)	Since the specification of these method does not told clients that these
+	method will modify this.numer and this.denom after calling one of them, it
+	should not change the abstract state of the object without telling the
+	clients.
+	The specification of RatNum stated that it represents an immutable rational
+	number, which means the abstract state of the class shouldn't be changed.
 
-(b)
-
-
-(c)
+(c)	It is sufficient to call checkRep only at the end of the constructors in
+	RatNum, since the only things checkRep() checks, in this class, are the
+	fields of RatNum, and the fields of RatNum are both declare as final.
+	Therefore, since no methods are able to change the state of the RatNum,
+	as long as at the end of the constructors checkRep() passed, the class will
+	always meet the Rep Invariant.
 
 
 Problem 2.
