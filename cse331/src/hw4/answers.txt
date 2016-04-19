@@ -7,15 +7,70 @@ Problem 0.
 
 (a) r = p * q:
 		initialize r to a polynomial that has 0 terms in it
-		foreach term, tp, in p:
-			 
+		foreach term, t_p, in p:
+			 foreach term, t_q, in q:
+			 	initialize s to a polynomial that has 1 term, which equals to 
+			 		the product of t_p and t_q
+				r = r + s;
 
+(b) q = u / v:
+		initialize q to a polynomial that has 0 terms in it
+		set p = u by making a term-by-term copy of all terms in u to p
+		initialize t_v0 as a term to a copy of the greatest-degree term in v
+		while p does not equals to null:
+			initialize t_p0 as a term to a copy of the greatest-degree term in p
+			if degree of t_v0 is less than or equals to degree of t_p0,
+				then initialize d to a polynomial that has 1 term, which equals
+					 	to (t_p0 / t_v0),
+					 q = q + d;
+					 d = -d;
+					 initialize temp as a term-by-term copy of all terms in v,
+					 temp = temp * d;
+					 p = p + temp;
+				else set p to null
 
-(b)
-
-
-(c)
-
+(c)	u = (x^3 + x - 1)
+	v = (x + 1)
+	q = a 0-term polynomial
+	p = copy of u = (x^3 + x - 1)
+	t_v0 = copy of the greatest-degree term in v = x
+	while p != null
+		Iteration 1: 
+			t_p0 = copy of the greatest-degree term in p = x^3
+			[if degree of t_v0 <= degree of t_p0] YES
+			[then initialize d to a poly = (t_p0 / t_v0)] d = x^2
+				q = q + d = x^2
+				d = -d = -x^2
+				temp = copy of v = (x + 1)
+				temp = temp * d = (-x^3 - x^2)
+				p = p + temp = (-x^2 + x - 1)
+			[else set p = null]
+		Iteration 2:
+			t_p0 = copy of the greatest-degree term in p = -x^2
+			[if degree of t_v0 <= degree of t_p0] YES
+			[then initialize d to poly = (t_p0 / t_v0)] d = -x
+				q = q + d = x^2 - x
+				d = -d = x
+				temp = copy of v = (x + 1)
+				temp = temp * d = (x^2 + x)
+				p = p + temp = (2x - 1)
+			[else set p = null]
+		Iteration 3:
+			t_p0 = copy of the greatest-degree term in p = 2x
+			[if degree of t_v0 <= degree of t_p0] YES
+			[then initialize d to poly = (t_p0 / t_v0)] d = 2
+				q = q + d = (x^2 - x + 2)
+				d = -d = -2
+				temp = copy of v = (x + 1)
+				temp = temp * d = (-2x -2)
+				p = p + temp = -2
+			[else set p = null]
+		Iteration 4:
+			t_p0 = copy of the greatest-degree term in p = -2
+			[if degree of t_v0 <= degree of t_p0] NO
+			[then initialize d to poly = (t_p0 / t_v0)]
+			[else set p = null] p = null
+		We are done! q = (x^2 - x + 2)
 
 Problem 1.
 
