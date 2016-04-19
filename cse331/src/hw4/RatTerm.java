@@ -147,14 +147,16 @@ public final class RatTerm {
    *             NaN.
    */
   public RatTerm add(RatTerm arg) {
-    if (this.expt != arg.expt && (!this.isZero() || !this.isNaN() ||
-    							  !arg.isZero() || !arg.isZero())) {
+    if (this.expt != arg.expt && !this.isZero() && !this.isNaN() &&
+    							  !arg.isZero() && !arg.isNaN()) {
     	throw new IllegalArgumentException();
     }
-    if (this.coeff.isNaN() || arg.coeff.isNaN()) {
+    if (this.isNaN() || arg.isNaN()) {
     	return this.NaN;
     } else {
-    	return new RatTerm(this.coeff.add(arg.coeff), expt);
+    	// set expt of the returned RatTerm to the max of this.expt and arg.expt
+    	// in case that one of them is 0
+    	return new RatTerm(this.coeff.add(arg.coeff), Math.max(this.expt, arg.expt));
     }
   }
 
@@ -170,6 +172,7 @@ public final class RatTerm {
    *             NaN.
    */
   public RatTerm sub(RatTerm arg) {
+	// a - b = a + (-b)
     return this.add(arg.negate());
   }
 
@@ -185,6 +188,7 @@ public final class RatTerm {
 	if (this.isNaN() || arg.isNaN()) {
 		return this.NaN;
 	} else {
+		// the returned RatTerm's expt will be the sum of the two arguments'
 		return new RatTerm(this.coeff.mul(arg.coeff), this.expt + arg.expt);
 	}
   }
@@ -201,6 +205,8 @@ public final class RatTerm {
     if (arg.isZero() || this.isNaN() || arg.isNaN()) {
     	return this.NaN;
     } else {
+    	// the returned RatTerm's expt will be the difference of the two
+    	// arguments'
     	return new RatTerm(this.coeff.div(arg.coeff), this.expt - arg.expt);
     }
   }

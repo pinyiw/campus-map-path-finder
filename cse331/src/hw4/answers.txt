@@ -100,13 +100,29 @@ Problem 1.
 
 Problem 2. (must specify the new method I defined)
 
-(a)
+(a)	I include calls to checkRep() only at the end of the constructors, since
+	this class is immutable and all of its fields are declared as final, if
+	it passed the checkRep() after the constructors, no other methods are able
+	to modify its field.
 
+(b)	getExpt() and toString() should check whether coeff is zero, since 0x^2 is
+	invalid	according to the class specification, they should treat expt as
+	0 if coeff == 0.
+	hashCode() and equals() should also check whether coeff is zero before they
+	return their output, since 0x^2 and 0x^3 should be considered the same
+	thing.
+	Weakening the representation invariant in this way will make the code less
+	clear, since the specification state that 0x^2 is valid, but the class will
+	not throw an error if 0x^2 is created.
 
-(b)
-
-
-(c)
+(c) Since now terms like NaN*x^74 are considered invalid to RatTerm class and
+	the check is added into the representation invariant, we can satisfy it
+	just by making expt = 0 if coeff.isNaN() in the constructors and because
+	those fields are declared as final, we are not able to break the rule in
+	other methods.
+	Which set of RatTerm invariants is better really depends on how the class
+	specification was stated. However, I prefer both of them, since NaN*x^74
+	doesn't really make sense to me.
 
 
 Problem 5.
