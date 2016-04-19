@@ -73,8 +73,11 @@ public final class RatPoly {
    *          constructs a "0" polynomial.
    */
   public RatPoly(RatTerm rt) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly constructor is not yet implemented");
+    terms = new ArrayList<RatTerm>();
+    if (!rt.isZero()) {
+    	terms.add(rt);    	
+    }
+    checkRep();
   }
 
   /**
@@ -85,8 +88,11 @@ public final class RatPoly {
    *          a "0" polynomial.
    */
   public RatPoly(int c, int e) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly constructor is not yet implemented");
+    terms = new ArrayList<RatTerm>();
+    if (c != 0) {
+    	terms.add(new RatTerm(new RatNum(c), e));
+    }
+    checkRep();
   }
 
   /**
@@ -109,8 +115,11 @@ public final class RatPoly {
    *         "0".
    */
   public int degree() {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->degree() is not yet implemented");
+    if (terms.size() == 0) {
+    	return 0;
+    } else {
+    	return terms.get(0).getExpt();
+    }
   }
 
   /**
@@ -122,8 +131,14 @@ public final class RatPoly {
    *         in this poly, then returns the zero RatTerm.
    */
   public RatTerm getTerm(int deg) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->getTerm() is not yet implemented");
+    RatTerm result = RatTerm.ZERO;
+    for (int i = 0; i < terms.size(); i++) {
+    	RatTerm cur = terms.get(i);
+    	if (cur.getExpt() == deg) {
+    		result = cur;
+    	}
+    }
+    return result;
   }
 
   /**
@@ -132,8 +147,12 @@ public final class RatPoly {
    * @return true if and only if this has some coefficient = "NaN".
    */
   public boolean isNaN() {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->isNaN() is not yet implemented");
+    for (int i = 0; i < terms.size(); i++) {
+    	if (terms.get(i).getCoeff().isNaN()) {
+    		return true;
+    	}
+    }
+    return false;
   }
 
   /**
@@ -148,8 +167,9 @@ public final class RatPoly {
    * @see hw4.RatTerm regarding (C . E) notation
    */
   private static void scaleCoeff(List<RatTerm> lst, RatNum scalar) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->scaleCoeff() is not yet implemented");
+    for (int i = 0; i < lst.size(); i++) {
+    	lst.set(i, lst.get(i).mul(new RatTerm(scalar, 0)));
+    }
   }
 
   /**
@@ -164,8 +184,9 @@ public final class RatPoly {
    * @see hw4.RatTerm regarding (C . E) notation
    */
   private static void incremExpt(List<RatTerm> lst, int degree) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->incremExpt() is not yet implemented");
+    for (int i = 0; i < lst.size(); i++) {
+    	lst.set(i, new RatTerm())
+    }
   }
 
   /**
