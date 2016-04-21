@@ -236,6 +236,8 @@ public final class RatPoly {
 	    		lst.add(k, newTerm);
 	    	} else if (!pre.add(newTerm).getCoeff().equals(RatNum.ZERO)) {
 	    		lst.set(k - 1, pre.add(newTerm));
+	    	} else {
+	    		lst.remove(k - 1);
 	    	}
 	    }
 	}
@@ -309,7 +311,7 @@ public final class RatPoly {
     	List<RatTerm> r = new ArrayList<RatTerm>();
     	for (int i = 0; i < this.terms.size(); i++) {
     		for (int j = 0; j < p.terms.size(); j++) {
-    			r.add(this.terms.get(i).mul(p.terms.get(j)));
+    			this.sortedInsert(r, this.terms.get(i).mul(p.terms.get(j)));
     		}
     	}
     	return new RatPoly(r);
@@ -351,41 +353,22 @@ public final class RatPoly {
     } else if (this.terms.size() == 0) {
     	return this.ZERO;
     } else {
-    	assert(v.terms.size() > 0 && this.terms.size() > 0) : "safe";
     	List<RatTerm> q = new ArrayList<RatTerm>();
     	RatTerm leadV = v.terms.get(0);
     	List<RatTerm> p = new ArrayList<RatTerm>();
     	p.addAll(this.terms);
-    	assert(this.terms.size() == p.size()) : "same size";
     	RatPoly poly = new RatPoly(p);
-    	while (poly.terms.size() != 0 ||
+    	while (poly.terms.size() != 0 &&
     						leadV.getExpt() <= poly.terms.get(0).getExpt()) {
-    		System.out.println("poly_init=" + poly.toString());
     		RatTerm leadP = poly.terms.get(0);
-    		assert(leadP.getCoeff().intValue() == 2) : "p not correct";
 			RatTerm div = leadP.div(leadV);
-			assert(div.getCoeff().intValue() == 2 &&
-					div.getExpt() == 0) : "div not correct";
 			this.sortedInsert(q, div);
-			System.out.println("q=" + q.get(0).getCoeff().intValue());
-			assert(q.get(0).getCoeff().intValue() == 2) : "q not correct";
 			RatPoly temp = v.mul(new RatPoly(div));
-			System.out.println("temp=" + temp.toString());
 			poly = poly.sub(temp);
-			System.out.println("poly=" + poly.toString());
     	}
     	return new RatPoly(q);
     	
     }
-  }
-  
-  private boolean checkSame(List<RatTerm> p) {
-	  for (int i = 0; i < this.terms.size(); i++) {
-		  if (!this.terms.get(i).equals(p.get(i))) {
-			  return false;
-		  }
-	  }
-	  return true;
   }
 
   /**
@@ -399,8 +382,15 @@ public final class RatPoly {
    * The derivative of a polynomial is the sum of the derivative of each term.
    */
   public RatPoly differentiate() {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->differentiate() is not yet implemented");
+	if (this.isNaN()) {
+		return this.NaN;
+	} else {
+	    List<RatTerm> list = new ArrayList<RatTerm>();
+	    for (int i = 0; i < terms.size(); i++) {
+	    	list.add(terms.get(i).differentiate());
+	    }
+	    return new RatPoly(list);
+	}
   }
 
   /**
@@ -420,9 +410,16 @@ public final class RatPoly {
    * each term plus some constant.
    */
   public RatPoly antiDifferentiate(RatNum integrationConstant) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException(
-        "RatPoly->antiDifferentiate() unimplemented!");
+    if (this.isNaN() || integrationConstant.isNaN()) {
+    	return this.NaN;
+    } else {
+    	List<RatTerm> list = new ArrayList<RatTerm>();
+    	for (int i = 0; i < terms.size(); i++) {
+    		list.add(terms.get(i).antiDifferentiate());
+    	}
+    	list.add(new RatTerm(integrationConstant, 0));
+    	return new RatPoly(list);
+    }
   }
 
   /**
@@ -442,8 +439,17 @@ public final class RatPoly {
    *         Double.NaN.
    */
   public double integrate(double lowerBound, double upperBound) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->integrate() is not yet implemented");
+    if (this.isNaN() || Double.isNaN(lowerBound) || Double.isNaN(upperBound)) {
+    	return Double.NaN;
+    } else {
+    	RatPoly anti = this.antiDifferentiate(RatNum.ZERO);
+    	double result = 0.0;
+    	for (int i = 0; i < anti.terms.size(); i++) {
+    		RatTerm cur = anti.terms.get(i);
+    		result += cur.eval(upperBound) - cur.eval(lowerBound);
+    	}
+    	return result;
+    }
   }
 
   /**
@@ -455,8 +461,15 @@ public final class RatPoly {
    *         (this.isNaN() == true), return Double.NaN
    */
   public double eval(double d) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->eval() is not yet implemented");
+    if (this.isNaN()) {
+    	return Double.NaN;
+    } else {
+    	Double result = 0.0;
+    	for (int i = 0; i < this.terms.size(); i++) {
+    		result += this.terms.get(i).eval(d);
+    	}
+    	return result;
+    }
   }
 
   /**

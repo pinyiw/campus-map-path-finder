@@ -572,13 +572,13 @@ public final class RatPolyTest {
   public void testDivEvaltoSingleCoeff() {
     // 0/x = 0
     eq(poly(0, 1).div(poly(1, 1)), "0");
-    System.out.println("2/1");
+    
     // 2/1 = 2
     eq(poly(2, 0).div(poly(1, 0)), "2");
-    System.out.println("x/x");
+    
     // x/x = 1
     eq(poly(1, 1).div(poly(1, 1)), "1");
-    System.out.println("-x/x");
+    
     // -x/x = -1
     eq(poly(-1, 1).div(poly(1, 1)), "-1");
 
