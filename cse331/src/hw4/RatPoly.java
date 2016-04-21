@@ -1,6 +1,7 @@
 package hw4;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -102,8 +103,13 @@ public final class RatPoly {
    *          The method does not make a copy of 'rt'.
    */
   private RatPoly(List<RatTerm> rt) {
-    terms = rt;
     // The spec tells us that we don't need to make a copy of 'rt'
+    for (int i = 0 ; i < rt.size(); i++) {
+    	if (rt.get(i).getCoeff().equals(RatNum.ZERO)) {
+    		rt.remove(i);
+    	}
+    }
+    terms = rt;
     checkRep();
   }
 
@@ -185,7 +191,8 @@ public final class RatPoly {
    */
   private static void incremExpt(List<RatTerm> lst, int degree) {
     for (int i = 0; i < lst.size(); i++) {
-    	lst.set(i, new RatTerm())
+    	RatTerm cur = lst.get(i);
+    	lst.set(i, new RatTerm(cur.getCoeff(), cur.getExpt() + degree));
     }
   }
 
@@ -213,8 +220,25 @@ public final class RatPoly {
    *          cofind(lst,newTerm.getExpt()) + newTerm.getCoeff())
    */
   private static void sortedInsert(List<RatTerm> lst, RatTerm newTerm) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->sortedInsert() is not yet implemented");
+	if (!newTerm.getCoeff().equals(RatNum.ZERO)) {
+	    int exp = newTerm.getExpt();
+	    int k = 0;
+	    int size = lst.size();
+	    while (k < size && lst.get(k).getExpt() >= exp) {
+	    	k++;
+	    }
+	    // k == lst.size() || cur.getExpt() < exp
+	    if (k == 0) {
+	    	lst.add(0, newTerm);
+	    } else {
+	    	RatTerm pre = lst.get(k - 1);
+	    	if (pre.getExpt() != exp) {
+	    		lst.add(k, newTerm);
+	    	} else if (!pre.add(newTerm).getCoeff().equals(RatNum.ZERO)) {
+	    		lst.set(k - 1, pre.add(newTerm));
+	    	}
+	    }
+	}
   }
 
   /**
@@ -224,8 +248,15 @@ public final class RatPoly {
    *         such that r.isNaN()
    */
   public RatPoly negate() {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->negate() is not yet implemented");
+    if (this.isNaN()) {
+    	return this.NaN;
+    } else {
+    	List<RatTerm> l = new ArrayList<RatTerm>();
+    	for (int i = 0; i < terms.size(); i++) {
+    		l.add(terms.get(i).negate());
+    	}
+    	return new RatPoly(l);
+    }
   }
 
   /**
@@ -237,8 +268,17 @@ public final class RatPoly {
    *         p.isNaN(), returns some r such that r.isNaN()
    */
   public RatPoly add(RatPoly p) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->add() is not yet implemented");
+    if (this.isNaN() || p.isNaN()) {
+    	return this.NaN;
+    } else {
+    	List<RatTerm> l = new ArrayList<RatTerm>();
+    	l.addAll(this.terms);
+    	for (int i = 0; i < p.terms.size(); i++) {
+    		this.sortedInsert(l, p.terms.get(i));
+    	}
+    	return new RatPoly(l);
+    	
+    }
   }
 
   /**
@@ -250,8 +290,8 @@ public final class RatPoly {
    *         p.isNaN(), returns some r such that r.isNaN()
    */
   public RatPoly sub(RatPoly p) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->sub() is not yet implemented");
+	// this - p = this + (-p)
+    return this.add(p.negate());
   }
 
   /**
@@ -263,8 +303,17 @@ public final class RatPoly {
    *         p.isNaN(), returns some r such that r.isNaN()
    */
   public RatPoly mul(RatPoly p) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->mul() is not yet implemented");
+    if (this.isNaN() || p.isNaN()) {
+    	return this.NaN;
+    } else {
+    	List<RatTerm> r = new ArrayList<RatTerm>();
+    	for (int i = 0; i < this.terms.size(); i++) {
+    		for (int j = 0; j < p.terms.size(); j++) {
+    			r.add(this.terms.get(i).mul(p.terms.get(j)));
+    		}
+    	}
+    	return new RatPoly(r);
+    }
   }
 
   /**
@@ -296,9 +345,47 @@ public final class RatPoly {
    * Note that this truncating behavior is similar to the behavior of integer
    * division on computers.
    */
-  public RatPoly div(RatPoly p) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->div() is not yet implemented");
+  public RatPoly div(RatPoly v) {
+    if (v.terms.size() == 0 || this.isNaN() || v.isNaN()) {
+    	return this.NaN;
+    } else if (this.terms.size() == 0) {
+    	return this.ZERO;
+    } else {
+    	assert(v.terms.size() > 0 && this.terms.size() > 0) : "safe";
+    	List<RatTerm> q = new ArrayList<RatTerm>();
+    	RatTerm leadV = v.terms.get(0);
+    	List<RatTerm> p = new ArrayList<RatTerm>();
+    	p.addAll(this.terms);
+    	assert(this.terms.size() == p.size()) : "same size";
+    	RatPoly poly = new RatPoly(p);
+    	while (poly.terms.size() != 0 ||
+    						leadV.getExpt() <= poly.terms.get(0).getExpt()) {
+    		System.out.println("poly_init=" + poly.toString());
+    		RatTerm leadP = poly.terms.get(0);
+    		assert(leadP.getCoeff().intValue() == 2) : "p not correct";
+			RatTerm div = leadP.div(leadV);
+			assert(div.getCoeff().intValue() == 2 &&
+					div.getExpt() == 0) : "div not correct";
+			this.sortedInsert(q, div);
+			System.out.println("q=" + q.get(0).getCoeff().intValue());
+			assert(q.get(0).getCoeff().intValue() == 2) : "q not correct";
+			RatPoly temp = v.mul(new RatPoly(div));
+			System.out.println("temp=" + temp.toString());
+			poly = poly.sub(temp);
+			System.out.println("poly=" + poly.toString());
+    	}
+    	return new RatPoly(q);
+    	
+    }
+  }
+  
+  private boolean checkSame(List<RatTerm> p) {
+	  for (int i = 0; i < this.terms.size(); i++) {
+		  if (!this.terms.get(i).equals(p.get(i))) {
+			  return false;
+		  }
+	  }
+	  return true;
   }
 
   /**
