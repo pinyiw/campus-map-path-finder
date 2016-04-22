@@ -104,6 +104,7 @@ public final class RatPoly {
    */
   private RatPoly(List<RatTerm> rt) {
     // The spec tells us that we don't need to make a copy of 'rt'
+	// remove RatTerms that has coeff == 0
     for (int i = 0 ; i < rt.size(); i++) {
     	if (rt.get(i).getCoeff().equals(RatNum.ZERO)) {
     		rt.remove(i);
@@ -220,10 +221,12 @@ public final class RatPoly {
    *          cofind(lst,newTerm.getExpt()) + newTerm.getCoeff())
    */
   private static void sortedInsert(List<RatTerm> lst, RatTerm newTerm) {
+	// won't do anything if the coeff of newTerm is 0
 	if (!newTerm.getCoeff().equals(RatNum.ZERO)) {
 	    int exp = newTerm.getExpt();
 	    int k = 0;
 	    int size = lst.size();
+	    // increment k to the right place
 	    while (k < size && lst.get(k).getExpt() >= exp) {
 	    	k++;
 	    }
@@ -233,10 +236,13 @@ public final class RatPoly {
 	    } else {
 	    	RatTerm pre = lst.get(k - 1);
 	    	if (pre.getExpt() != exp) {
+	    		// add the terms together if we found same expt
 	    		lst.add(k, newTerm);
 	    	} else if (!pre.add(newTerm).getCoeff().equals(RatNum.ZERO)) {
+	    		// add the term to terms if it's new
 	    		lst.set(k - 1, pre.add(newTerm));
 	    	} else {
+	    		// remove the term if the coeff cancel off
 	    		lst.remove(k - 1);
 	    	}
 	    }
@@ -274,6 +280,7 @@ public final class RatPoly {
     	return this.NaN;
     } else {
     	List<RatTerm> l = new ArrayList<RatTerm>();
+    	// copy terms to l
     	l.addAll(this.terms);
     	for (int i = 0; i < p.terms.size(); i++) {
     		this.sortedInsert(l, p.terms.get(i));
@@ -311,6 +318,7 @@ public final class RatPoly {
     	List<RatTerm> r = new ArrayList<RatTerm>();
     	for (int i = 0; i < this.terms.size(); i++) {
     		for (int j = 0; j < p.terms.size(); j++) {
+    			// add the product of each term of p and this to a new list
     			this.sortedInsert(r, this.terms.get(i).mul(p.terms.get(j)));
     		}
     	}
@@ -354,12 +362,16 @@ public final class RatPoly {
     	return this.ZERO;
     } else {
     	List<RatTerm> q = new ArrayList<RatTerm>();
+    	// leadV is the leading term of v
     	RatTerm leadV = v.terms.get(0);
+    	// p is the copy of this.terms
     	List<RatTerm> p = new ArrayList<RatTerm>();
     	p.addAll(this.terms);
+    	// poly is the copy of this
     	RatPoly poly = new RatPoly(p);
     	while (poly.terms.size() != 0 &&
     						leadV.getExpt() <= poly.terms.get(0).getExpt()) {
+    		// do long division
     		RatTerm leadP = poly.terms.get(0);
 			RatTerm div = leadP.div(leadV);
 			this.sortedInsert(q, div);
@@ -385,6 +397,7 @@ public final class RatPoly {
 	if (this.isNaN()) {
 		return this.NaN;
 	} else {
+		// differentiate term by term
 	    List<RatTerm> list = new ArrayList<RatTerm>();
 	    for (int i = 0; i < terms.size(); i++) {
 	    	list.add(terms.get(i).differentiate());
@@ -413,6 +426,7 @@ public final class RatPoly {
     if (this.isNaN() || integrationConstant.isNaN()) {
     	return this.NaN;
     } else {
+    	// antiDifferentiate term by term and add the constant at the end
     	List<RatTerm> list = new ArrayList<RatTerm>();
     	for (int i = 0; i < terms.size(); i++) {
     		list.add(terms.get(i).antiDifferentiate());
@@ -444,6 +458,7 @@ public final class RatPoly {
     } else {
     	RatPoly anti = this.antiDifferentiate(RatNum.ZERO);
     	double result = 0.0;
+    	// add the difference of lowerBound and upperBound of each terms
     	for (int i = 0; i < anti.terms.size(); i++) {
     		RatTerm cur = anti.terms.get(i);
     		result += cur.eval(upperBound) - cur.eval(lowerBound);
