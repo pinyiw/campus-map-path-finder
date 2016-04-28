@@ -1,18 +1,59 @@
 CSE 331 Homework 5.  Answers to Written questions.
 Edit this file to supply your answers.
 
-Name:  <replace this with your name>
+Name:  Pinyi Wang
 
 Problem 1. (Written exercises)
 
-(a)
+(a)	IntQueue1.java:
+	// Abstraction Function:
+	// IntQueue1, q, is a queue that stores integer values contained in
+	// 'entries'.
 
+	// Representation invariant for every IntQueue1 q:
+	// entries != null &&
+	// forall i such that (0 <= i < entries.size()), entries.get(i) != null
+	
 
-(b)
+	IntQueue2.java:
+	// Abstraction Function:
+	// IntQueue2, q, is a queue that stores integer values contained in
+	// 'entries'.
+	
+	// Representation invariant for every IntQueue1 q:
+	// entries != null &&
+	// size >= 0 && size < entries.length &&
+	// front >= 0 && front < entries.length
+	
+(b)	a == d == g
+	b == h
+	c == f
 
-
-(c)
-
+(c)	1. public int solveEquations(int x, int y, int z)
+		This method could not expose the representation, since it returns an
+		int, which is primitive.
+		
+	2. public String[] decode(boolean slowly)
+		This method could possibly expose the representation if the String[] it
+		returns is the direct reference of its class' field.
+	
+	3. private Date myBirthday()
+		This method could possibly expose the representation if the Date it
+		returns is the direct reference of its class' field.
+	
+	4. public String toString()
+		This method could not expose the representation, since when ever one
+		tries to change a String value, java would create a new String,
+		instead of modifying the String that returns from this method.
+	
+	5. public Iterator<Integer> elements()
+		This method could possibly expose the representation if the iterator
+		it returns is the direct reference of its class' field.
+	
+	6. public Deck(List<Card> cards)
+		This constructor could possibly expose the representation if it 
+		directly set the passed in List<Card> cards as its field, instead of
+		making a copy of it.
 
 Problem 2.  (Graph interface/operations)
 

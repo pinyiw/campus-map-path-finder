@@ -33,7 +33,7 @@ public class IntQueue2 {
     // incremented.  As items are dequeued, front is incremented and size
     // is decremented.
 
-    // Normally, your abstraction function and representation invarant would go
+    // Normally, your abstraction function and representation invariant would go
     // here. For ease of grading, please place them in hw5/answers/problem1.txt
     // instead with your answers to the other written exercises.
 
@@ -120,5 +120,9 @@ public class IntQueue2 {
     public void checkRep() {
         // If I gave this to you, you wouldn't have the fun of figuring out the
         // rep invariant for yourself :)
+    	assert (entries != null) : "entries equals null";
+    	assert (size >= 0) : "size less than 0";
+    	assert (size < entries.length) : "illegal size";
+    	assert (front >= 0 && front < entries.length) : "illegal front";
     }
 }

@@ -24,7 +24,7 @@ public class IntQueue1 {
     // This class represents a queue as a linked list where the front of
     // the list corresponds to the front of the queue.
 
-    // Normally, your abstraction function and representation invarant would go
+    // Normally, your abstraction function and representation invariant would go
     // here. For ease of grading, please place them in hw5/answers/problem1.txt
     // instead with your answers to the other written exercises.
 
@@ -94,5 +94,10 @@ public class IntQueue1 {
     public void checkRep() {
         // If I gave this to you, you wouldn't have the fun of figuring out the
         // rep invariant for yourself :)
+    	assert (entries != null) : "entries cannot be null";
+    	
+    	for (int i = 0; i < entries.size(); i++) {
+    		assert (entries.get(i) != null) : "null entry";
+    	}
     }
 }
