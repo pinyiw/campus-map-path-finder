@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * <b>Graph</b> represents a <b>mutable</b> graph with GraphNode as its node
@@ -14,14 +15,14 @@ import java.util.Map;
 
 public class Graph {
 	
-	/** The map that stores all the Edges. */
-	private Map<GraphNode, List<Edge>> map;
+	/** The map that stores all the nodes and edges. */
+	private Map<GraphNode, Map<GraphNode, List<String>>> map;
 	
 	// Abstraction Function:
 	// Graph, g, is a directed labeled multigraph that stores a list of
 	// GraphNode and the Edge connect them.
 	//
-	// Representation invarian for every Graph g:
+	// Representation invariant for every Graph g:
 	//	map != null &&
 	//	forall GraphNode node in map.keySet(), map.get(node) != null
 	
@@ -29,7 +30,7 @@ public class Graph {
 	 * @effects Constructs a new Graph with no node or edge
 	 */
 	public Graph() {
-		map = new HashMap<GraphNode, List<Edge>>();
+		map = new HashMap<GraphNode, Map<GraphNode, List<String>>>();
 		checkRep();
 	}
 	
@@ -37,6 +38,7 @@ public class Graph {
 	 * Check if this Graph contains the given node.
 	 * 
 	 * @param node the node to check if its in this Graph.
+	 * @requires node != null.
 	 * @return true if node is in this Graph, otherwise, false.
 	 */
 	public boolean contains(GraphNode node) {
@@ -49,31 +51,28 @@ public class Graph {
 	 * @param start the start of the Edge to be checked.
 	 * @param dest the destination of the Edge to be checked.
 	 * @return true if start and dest is connected, otherwise, false.
-	 * @throws IllegalArgumentexception if start is not in this Graph.
+	 * @throws IllegalArgumentexception if start == null || dest == null ||
+	 * 		   start is not in this Graph.
 	 */
 	public boolean isConnected(GraphNode start, GraphNode dest) {
-		if (!this.contains(start)) {
+		if (start == null || dest == null || !this.contains(start)) {
 			throw new IllegalArgumentException();
 		}
-		List<Edge> list = map.get(start);
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getDest().equals(dest)) {
-				return true;
-			}
-		}
-		return false;
+		Set<GraphNode> set = map.get(start).keySet();
+		return set.contains(dest);
 	}
 	
 	/**
 	 * Add the given GraphNode to this Graph.
 	 * 
 	 * @param node the GraphNode to be added to this Graph.
+	 * @requires node != null.
 	 * @return true if node is added to this Graph, false if node is already
 	 * 		   in it.
 	 */
 	public boolean addNode(GraphNode node) {
 		if (!this.contains(node)) {
-			map.put(node, new LinkedList<Edge>());
+			map.put(node, new HashMap<GraphNode, List<String>>());
 			checkRep();
 			return true;
 		}
@@ -95,8 +94,10 @@ public class Graph {
 			throw new IllegalArgumentException();
 		}
 		boolean wasConnected = this.isConnected(start, dest);
-		map.get(start).add(new Edge(data, dest));
-		checkRep();
+		if (!wasConnected) {
+			map.get(start).put(dest, new LinkedList<String>());
+		}
+		map.get(start).get(dest).add(data);
 		return wasConnected;
 	}
 	
