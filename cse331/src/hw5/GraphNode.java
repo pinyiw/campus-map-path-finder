@@ -61,6 +61,11 @@ public class GraphNode {
 		}
 	}
 	
+	@Override
+	public int hashCode() {
+		return this.name.hashCode();
+	}
+	
 	/**
 	 * Checks that the representation invariant holds.
 	 */

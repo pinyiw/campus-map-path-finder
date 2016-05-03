@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * <b>Graph</b> represents a <b>mutable</b> graph with GraphNode as its node
- * and Edge as its edge.
+ * <b>Graph</b> represents a <b>mutable</b> labeled multigraph that stores
+ * a list of GraphNode and the connection among them.
  * 
  * @author pinyiw
  */
@@ -20,7 +20,7 @@ public class Graph {
 	
 	// Abstraction Function:
 	// Graph, g, is a directed labeled multigraph that stores a list of
-	// GraphNode and the Edge connect them.
+	// GraphNode and connection among them.
 	//
 	// Representation invariant for every Graph g:
 	//	map != null &&
@@ -117,7 +117,12 @@ public class Graph {
 	private void checkRep() {
 		assert (map != null) : "map == null";
 		for (GraphNode node: map.keySet()) {
-			assert (map.get(node) != null) : "null list";
+			assert (map.get(node) != null) : "null dest map";
+			Map<GraphNode, List<String>> cur = map.get(node);
+			for (GraphNode dest: cur.keySet()) {
+				assert(cur.get(dest) != null) : "null dest list";
+				assert(cur.get(dest).size() != 0) : "empty dest list";
+			}
 		}
 	}
 }
