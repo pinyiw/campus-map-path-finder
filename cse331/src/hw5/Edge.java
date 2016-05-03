@@ -1,7 +1,5 @@
 package hw5;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 /**
  * <b>Edge</b> is an <b>immutable</b> representation of a directed edge
  * connecting two GraphNode with data of the edge.
@@ -20,31 +18,60 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Edge {
 	
-	/** Starting node of this edge. */
-	private final GraphNode start;
-	
 	/** Ending node of this edge. */
-	private final GraphNode end;
+	private final GraphNode dest;
 	
 	/** Data of this node. */
 	private final String data;
 	
 	// Abstraction Function:
-	// Edge, e, is an edge that represent end is reachable from start and
+	// Edge, e, is an edge that represent dest is reachable from start and
 	// stores a string data of the edge.
 	
 	// Representation invariant for every Edge e:
-	//	start != null &&
-	// 	end != null &&
+	//	dest != null &&
 	//	data != null
 	
-	public Edge(String data, GraphNode start, GraphNode end) {
-		this.start = start;
-		this.end = end;
+	/**
+	 * @param data the data this Edge stores.
+	 * @param dest the destination of this Edge.
+	 * @requires dest != null && data != null.
+	 * @effects Constructs a new Edge which stores data and has destination
+	 * 			dest.
+	 * @throws IllegalArgumentException if dest == null || data == null.
+	 */
+	public Edge(String data, GraphNode dest) {
+		if (dest == null || data == null) {
+			throw new IllegalArgumentException();
+		}
+		this.dest = dest;
 		this.data = data;
+		checkRep();
 	}
 	
-	public GraphNode getStart() {
-		throw new NotImplementedException();
+	/**
+	 * Gets the data stored in this Edge.
+	 * 
+	 * @return the data stored in this Edge.
+	 */
+	public String getData() {
+		return this.data;
+	}
+	
+	/**
+	 * Gets the destination node of this Edge.
+	 * 
+	 * @return the destination node of this Edge.
+	 */
+	public GraphNode getDest() {
+		return this.dest;
+	}
+	
+	/**
+	 * Checks that the representation invariant holds.
+	 */
+	private void checkRep() {
+		assert (dest != null) : "dest == null";
+		assert (data != null) : "data == null";
 	}
 }
