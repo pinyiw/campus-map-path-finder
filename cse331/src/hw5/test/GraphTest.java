@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -52,7 +53,8 @@ public final class GraphTest {
 	@Test
 	public void testListConstructor() {
 		init();
-		new Graph(new LinkedList<GraphNode>());
+		Graph g = new Graph(new LinkedList<GraphNode>());
+		assertTrue(g.isEmpty());
 	}
 	
 	@Test
@@ -165,5 +167,58 @@ public final class GraphTest {
 		for (int i = 0; i < 3; i++) {
 			assertTrue(list2.contains(arr[i + 2]));
 		}
+	}
+	
+	@Test
+	public void testChildNode() {
+		init();
+		GraphNode[] arr = {a, b, c};
+		threeNode.addEdge(a, a, "");
+		threeNode.addEdge(a, b, "");
+		threeNode.addEdge(a, c, "");
+		threeNode.addEdge(b, c, "");
+		threeNode.addEdge(b, b, "");
+		threeNode.addEdge(c, a, "");
+		Set<GraphNode> setA = threeNode.childNode(a);
+		for (int i = 0; i < 3; i++) {
+			assertTrue(setA.contains(arr[i]));
+		}
+		Set<GraphNode> setB = threeNode.childNode(b);
+		for (int i = 1; i < 3; i++) {
+			assertTrue(setB.contains(arr[i]));
+		}
+		assertFalse(setB.contains(a));
+		Set<GraphNode> setC = threeNode.childNode(c);
+		for (int i = 1; i < 3; i++) {
+			assertFalse(setC.contains(arr[i]));
+		}
+		assertTrue(setC.contains(a));
+	}
+	
+	@Test
+	public void testIsolatedGraphChildNode() {
+		init();
+		assertEquals(threeNode.childNode(a).size(), 0);
+		assertEquals(threeNode.childNode(b).size(), 0);
+		assertEquals(threeNode.childNode(c).size(), 0);
+	}
+	
+	@Test
+	public void testNodes() {
+		init();
+		Set<GraphNode> set0 = zeroNode.nodes();
+		assertFalse(set0.contains(a));
+		assertFalse(set0.contains(b));
+		assertFalse(set0.contains(c));
+		
+		Set<GraphNode> set1 = oneNode.nodes();
+		assertTrue(set1.contains(a));
+		assertFalse(set1.contains(b));
+		assertFalse(set1.contains(c));
+		
+		Set<GraphNode> set2 = twoNode.nodes();
+		assertTrue(set2.contains(a));
+		assertTrue(set2.contains(b));
+		assertFalse(set2.contains(c));
 	}
 }

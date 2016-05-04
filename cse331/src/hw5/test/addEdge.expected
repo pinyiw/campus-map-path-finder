@@ -1,0 +1,12 @@
+# Create a graph
+created graph graph
+
+# Add nodes
+added node a to graph
+added node b to graph
+added node c to graph
+
+# Add edges
+added edge e1 from a to b in graph
+added edge e2 from b to c in graph
+added edge e3 from c to a in graph

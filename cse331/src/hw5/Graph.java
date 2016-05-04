@@ -1,12 +1,11 @@
 package hw5;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * <b>Graph</b> represents a <b>mutable</b> labeled multigraph that stores
@@ -100,10 +99,11 @@ public class Graph {
 	 * @param dest the destination of the edge to be checked.
 	 * @return true if dest is reachable from start, otherwise, false.
 	 * @throws IllegalArgumentexception if start == null || dest == null ||
-	 * 		   start is not in this Graph.
+	 * 		   start or dest is not in this Graph.
 	 */
 	public boolean isConnected(GraphNode start, GraphNode dest) {
-		if (start == null || dest == null || !this.contains(start)) {
+		if (start == null || dest == null || !this.contains(start) ||
+											!this.contains(dest)) {
 			throw new IllegalArgumentException();
 		}
 		Set<GraphNode> set = map.get(start).keySet();
@@ -173,17 +173,29 @@ public class Graph {
 	}
 	
 	/**
-	 * Return the list of childNode of the given node 
+	 * Return a set of childNode of the given node.
 	 * 
-	 * @param node the parent node of the list of node returned
-	 * @return the list of child node of 'node'.
+	 * @param node the parent node of the set of node returned
+	 * @return the set of child node of 'node'.
 	 * @throws IllegalArgumentException if node is not in this Graph.
 	 */
-	public List<GraphNode> childNode(GraphNode node) {
+	public Set<GraphNode> childNode(GraphNode node) {
 		if (!this.contains(node)) {
 			throw new IllegalArgumentException();
 		}
-		
+		Set<GraphNode> nodes = map.get(node).keySet();
+		return nodes;
+	}
+	
+	/**
+	 * Return a set of all the nodes in this Graph.
+	 * 
+	 * @return all the nodes in this Graph as a set.
+	 */
+	public Set<GraphNode> nodes() {
+		Set<GraphNode> temp = new HashSet<GraphNode>();
+		temp.addAll(map.keySet());
+		return temp;
 	}
 	
 	/**

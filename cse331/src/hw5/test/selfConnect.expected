@@ -1,0 +1,17 @@
+# Create a graph
+created graph g
+
+# Add nodes
+added node a to g
+added node b to g
+added node c to g
+
+# Add edges
+added edge e1 from a to a in g
+added edge e2 from b to b in g
+added edge e3 from c to c in g
+
+#Print the outgoing edges from a, b and c
+the children of a in g are: a(e1)
+the children of b in g are: b(e2)
+the children of c in g are: c(e3)

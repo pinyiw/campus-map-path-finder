@@ -25,9 +25,9 @@ Problem 1. (Written exercises)
 	// size >= 0 && size < entries.length &&
 	// front >= 0 && front < entries.length
 	
-(b)	a == d == g
-	b == h
-	c == f
+(b)	a, d and g have the same abstract state.
+	b and h have the same abstract state.
+	c and f have the same abstract state.
 
 (c)	1. public int solveEquations(int x, int y, int z)
 		This method could not expose the representation, since it returns an
@@ -56,12 +56,128 @@ Problem 1. (Written exercises)
 		making a copy of it.
 
 Problem 2.  (Graph interface/operations)
+	My implementation of labeled multigraph includes two classes, Graph.java
+	and GraphNode.java.
+	
+	GraphNode.java:
+	I think that creating a class for the node of my graph implementation is
+	necessary, since the whole implementation would be easier and safer if I
+	have an immutable class, so that I wouldn't need to make safe copy 
+	whenever I want to return a node in my graph.
+	
+	public GraphNode(String name):
+	This is my only constructor for GraphNode, since this class is very simple
+	that it only stores a String name.
+	
+	public String getName():
+	Since GraphNode's name field is declared as final, I need a get method
+	to allow client to get the name of GraphNode.
+	
+	public boolean equals(Object other):
+	Overriding Object's equals method is necessary for GraphNode, since I
+	would need to define the definition of equal GraphNode to client.
+	
+	public int hashCode():
+	Since I override equals method, therefore it is also necessary to have a
+	hashCode method to make equal GraphNode has the same hashCode.
+	
+	
+	Graph.java:
+	This is the class that stores all the nodes and edges in a graph.
+	
+	public Graph():
+	This constructor just create an empty graph, since client might want to
+	create an empty graph and build their whole graph later on.
+	
+	public Graph(List<GraphNode> list):
+	This constructor passed in a list of node and create a graph that have all
+	nodes in that list. I think this may be convenient for client who already
+	have a list of node to create a graph with.
+	
+	public boolean contains(GraphNode node):
+	This method tells the client whether the given graph is contained in this
+	graph. This is necessary since the client should have the right to know
+	what nodes are in the graph they created.
+	
+	public int nodeSize():
+	It would be convenient for the client to get the total number of nodes in
+	their graph, instead of counting them one by one.
+	
+	public boolean isEmpty():
+	This is a quick method for client to check whether there are nodes in this
+	graph.
+	
+	public boolean isConnected(GraphNode start, GraphNode dest):
+	This method tells whether dest is reachable from start, which is an
+	important information for a graph implementation.
+	
+	public boolean addNode(GraphNode node):
+	This method allow clients to add new node to the graph. If I don't have
+	this method, clients wouldn't be able to add nodes to graph after the
+	graph has been created.
+	
+	public boolean addEdge(GraphNode start, GraphNode dest, String data):
+	This method is necessary, otherwise, clients won't be able to add any edge
+	to their graph.
+	
+	public List<String> getEdgeData(GraphNode start, GraphNode dest):
+	This method allow the clients to find the list of data of edges that make
+	dest reachable from start. It is necessary, otherwise, clients wouldn't be
+	able to find the edges they have created.
+	
+	public Set<GraphNode> childNode(GraphNode node):
+	It would be convenient for clients to get a set of nodes the given node can
+	go, instead of checking all nodes one by one.
+	
+	public Set<GraphNode> nodes()
+	This give clients access to all the nodes at once, which is pretty
+	convenient.
 
 
 
 Problem 3.  (Testing strategy)
+	I used the strategy in the Hint section of Designing Tests. I test the cases
+	with 0, 1 and 2 of the nodes or edges the test is focusing. For
+	implementation test, I used clear box testing. While writing the test code
+	I looked through my method and think how bugs may exist in each method. For
+	specification test, I used black box testing. While writing it, I look at my
+	specification and test the spec of each method.
 
-
+	I added a test to test the condition when the starting node and destination
+	are the same node.
 
 Problem 4.  (Representation)
+a.	I would say my implementation is similar as using an adjacency list and
+	each node is associated with a list of its outgoing edges.
+	
+	1) One advantage of representing a graph as a collection of edges is that
+	methods that require quick access to all the edges, such as returning
+	all the edges as a list, will be very fast.
+	
+	2) One advantage of representing a graph as an adjacency list, in which each
+	node is associated with a list of its outgoing edges (my representation),
+	it is easy to find the childNode of one node and see what node we have
+	in the graph at the same time.
+	
+	3) One advantage of representing a graph as an adjacency matrix, which
+	explicitly represents, for every pair (A, B) of nodes, what edges there are
+	(if any) from A to B, is that is allows constant time access to find
+	whether an edge exist.
+	
+	The reason I use my representation is that the first representation stores
+	too less information and therefore requires more time to do other operation.
+	Also, the third representation requires too much space if there are many
+	nodes in the graph. Therefore, I chose the second representation, which
+	is in the middle of the two, not using too much space and not storing too
+	less information.
+	
+b.	See GraphNode.java and Graph.java
+
+c.	My implementation uses a nested map. The keySet of the outer map includes
+	all the GraphNode in this Graph, and the value of the outer map is a map
+	that has key as the destination note of edge that is reachable from the key
+	of outer map. The value of the inner map is a list of string data of edges
+	connecting starting node to destination.
+	
+d.	See GraphNode.java and Graph.java
 

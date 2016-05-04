@@ -3,6 +3,9 @@ package hw5.test;
 import java.io.*;
 import java.util.*;
 
+import hw5.Graph;
+import hw5.GraphNode;
+
 /**
  * This class implements a testing driver which reads test scripts
  * from files for testing Graph.
@@ -53,6 +56,7 @@ public class HW5TestDriver {
     /** String -> Graph: maps the names of graphs to the actual graph **/
     //TODO for the student: Parameterize the next line correctly.
     //private final Map<String, _______> graphs = new HashMap<String, ________>();
+    private final Map<String, Graph> graphs = new HashMap<String, Graph>();
     private final PrintWriter output;
     private final BufferedReader input;
 
@@ -134,6 +138,9 @@ public class HW5TestDriver {
 
         // graphs.put(graphName, ___);
         // output.println(...);
+    	Graph g = new Graph();
+    	graphs.put(graphName, g);
+    	output.println("created graph " + graphName);
     }
 
     private void addNode(List<String> arguments) {
@@ -152,6 +159,9 @@ public class HW5TestDriver {
 
         // ___ = graphs.get(graphName);
         // output.println(...);
+    	Graph g = graphs.get(graphName);
+    	g.addNode(new GraphNode(nodeName));
+    	output.println("added node " + nodeName + " to " + graphName);
     }
 
     private void addEdge(List<String> arguments) {
@@ -173,6 +183,10 @@ public class HW5TestDriver {
 
         // ___ = graphs.get(graphName);
         // output.println(...);
+    	Graph g = graphs.get(graphName);
+    	g.addEdge(new GraphNode(parentName), new GraphNode(childName), edgeLabel);
+    	output.println("added edge " + edgeLabel + " from " + parentName +
+    					" to " + childName + " in " + graphName);
     }
 
     private void listNodes(List<String> arguments) {
@@ -189,6 +203,20 @@ public class HW5TestDriver {
 
         // ___ = graphs.get(graphName);
         // output.println(...);
+    	Graph g = graphs.get(graphName);
+    	Set<GraphNode> set = g.nodes();
+    	String[] arr = new String[set.size()];
+    	int count = 0;
+    	for (GraphNode node: set) {
+    		arr[count] = node.getName();
+    		count++;
+    	}
+    	Arrays.sort(arr);
+    	output.print(graphName + " contains:");
+    	for (int i = 0; i < arr.length; i++) {
+    		output.print(" " + arr[i]);
+    	}
+    	output.println();
     }
 
     private void listChildren(List<String> arguments) {
@@ -206,6 +234,31 @@ public class HW5TestDriver {
 
         // ___ = graphs.get(graphName);
         // output.println(...);
+    	Graph g = graphs.get(graphName);
+    	Set<GraphNode> set = g.childNode(new GraphNode(parentName));
+    	String[] arr = new String[set.size()];
+    	int count = 0;
+    	for (GraphNode node: set) {
+    		arr[count] = node.getName();
+    		count++;
+    	}
+    	Arrays.sort(arr);
+    	for (int i = 0; i < arr.length; i++) {
+    		String cur = arr[i];
+    		List<String> list = g.getEdgeData(new GraphNode(parentName),
+    											new GraphNode(arr[i]));
+    		Collections.sort(list);
+    		arr[i] += "(" + list.get(0) + ")";
+    		for (int j = 1; j < list.size(); j++) {
+    			arr[i] += " " + cur + "(" + list.get(j) + ")"; 
+    		}
+    	}
+    	output.print("the children of " + parentName + " in " + graphName +
+    					" are:");
+    	for (int i = 0; i < arr.length; i++) {
+    		output.print(" " + arr[i]);
+    	}
+    	output.println();
     }
 
     /**

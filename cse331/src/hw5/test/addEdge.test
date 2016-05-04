@@ -1,0 +1,12 @@
+# Create a graph
+CreateGraph graph
+
+# Add nodes
+AddNode graph a
+AddNode graph b
+AddNode graph c
+
+# Add edges
+AddEdge graph a b e1
+AddEdge graph b c e2
+AddEdge graph c a e3

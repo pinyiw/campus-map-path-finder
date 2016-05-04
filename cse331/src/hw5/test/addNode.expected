@@ -1,0 +1,7 @@
+# Create a graph
+created graph graph1
+
+#Add nodes
+added node a to graph1
+added node b to graph1
+added node c to graph1

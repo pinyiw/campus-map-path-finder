@@ -1,0 +1,10 @@
+# Create a graph
+created graph g
+
+# Add nodes
+added node a to g
+added node b to g
+added node c to g
+
+# Print all the nodes
+g contains: a b c

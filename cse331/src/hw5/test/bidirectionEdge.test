@@ -1,0 +1,20 @@
+# Create a graph
+CreateGraph g
+
+# Add nodes
+AddNode g a
+AddNode g b
+AddNode g c
+
+# Add edges
+AddEdge g a b e1
+AddEdge g b a e2
+AddEdge g a c e3
+AddEdge g c a e4
+AddEdge g b c e5
+AddEdge g c b e6
+
+# Print the outgoing edges from a, b and c
+ListChildren g a
+ListChildren g b
+ListChildren g c

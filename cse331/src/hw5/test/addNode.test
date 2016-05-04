@@ -1,0 +1,7 @@
+# Create a graph
+CreateGraph graph1
+
+#Add nodes
+AddNode graph1 a
+AddNode graph1 b
+AddNode graph1 c
