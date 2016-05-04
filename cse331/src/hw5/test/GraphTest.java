@@ -133,6 +133,17 @@ public final class GraphTest {
 	}
 	
 	@Test
+	public void testMultipleConnectionToOneNode() {
+		init();
+		threeNode.addEdge(a, a, "");
+		threeNode.addEdge(a, b, "");
+		threeNode.addEdge(a, c, "");
+		assertTrue(threeNode.isConnected(a, a));
+		assertTrue(threeNode.isConnected(a, b));
+		assertTrue(threeNode.isConnected(a, c));
+	}
+	
+	@Test
 	public void testGetEdgeData() {
 		init();
 		String[] arr = {"first", "second", "third", "fourth", "fifth"};

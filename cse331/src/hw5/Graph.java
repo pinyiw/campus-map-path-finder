@@ -175,11 +175,15 @@ public class Graph {
 	/**
 	 * Return the list of childNode of the given node 
 	 * 
-	 * @param node the parent node of the list of node we want.
+	 * @param node the parent node of the list of node returned
 	 * @return the list of child node of 'node'.
+	 * @throws IllegalArgumentException if node is not in this Graph.
 	 */
 	public List<GraphNode> childNode(GraphNode node) {
-		throw new NotImplementedException();
+		if (!this.contains(node)) {
+			throw new IllegalArgumentException();
+		}
+		
 	}
 	
 	/**
