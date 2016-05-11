@@ -42,7 +42,7 @@ public class Graph {
 	 */
 	public Graph() {
 		map = new HashMap<GraphNode, Map<GraphNode, List<String>>>();
-		checkRep();
+		//checkRep();
 	}
 	
 	/**
@@ -60,7 +60,7 @@ public class Graph {
 		for (int i = 0; i < list.size(); i++) {
 			map.put(list.get(i), new HashMap<GraphNode, List<String>>());
 		}
-		checkRep();
+		//checkRep();
 	}
 	
 	/**
@@ -121,10 +121,10 @@ public class Graph {
 	public boolean addNode(GraphNode node) {
 		if (!this.contains(node)) {
 			map.put(node, new HashMap<GraphNode, List<String>>());
-			checkRep();
+			//checkRep();
 			return true;
 		}
-		checkRep();
+		//checkRep();
 		return false;
 	}
 	
@@ -147,7 +147,7 @@ public class Graph {
 			map.get(start).put(dest, new LinkedList<String>());
 		}
 		map.get(start).get(dest).add(data);
-		checkRep();
+		//checkRep();
 		return wasConnected;
 	}
 	

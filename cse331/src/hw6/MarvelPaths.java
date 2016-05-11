@@ -24,7 +24,7 @@ import hw6.MarvelParser.MalformedDataException;
 
 public class MarvelPaths {
 	
-	private Graph graph;
+	public Graph graph;
 	
 	// Abstraction Function:
 	//
@@ -59,6 +59,19 @@ public class MarvelPaths {
 				}
 			}
 		}
+		//checkRep();
+	}
+	
+	/**
+	 * @param graph the graph we want to find paths with
+	 * @throws IllegalArgumentException if graph == null
+	 * @effects Constructs a new MarvelPath with the given graph.
+	 */
+	public MarvelPaths(Graph graph) {
+		if (graph == null) {
+			throw new IllegalArgumentException();
+		}
+		this.graph = graph;
 	}
 	
 	/**
@@ -113,10 +126,6 @@ public class MarvelPaths {
 				}
 			}
 		}
-		System.out.println("resultPath: ");
-		for (int i = 0; i < resultPath.size(); i++) {
-			System.out.println(resultPath.get(i).getName());
-		}
 		return processPathToReadableList(resultPath);
 	}
 	
@@ -156,26 +165,31 @@ public class MarvelPaths {
 	
 	public static void main(String[] args) throws MalformedDataException {
 		MarvelPaths mp = new MarvelPaths("src/hw6/data/staffSuperheroes.tsv");
+		Scanner console = new Scanner(System.in);
 		// test
-		Set<GraphNode> chars = mp.graph.nodes();
-		for (GraphNode node: chars) {
-			System.out.println(node.getName());
-		}
-		System.out.println();
-		for (GraphNode node: chars) {
-			System.out.println(node.getName() + ":");
-			Set<GraphNode> children = mp.graph.childNode(node);
-			for (GraphNode child: children) {
-				System.out.println("\t" + child.getName() + ":");
-				List<String> edges = mp.graph.getEdgeData(node, child);
-				for (int i = 0; i < edges.size(); i++) {
-					System.out.println("\t\t" + edges.get(i));
+		System.out.print("Do you want to print out the graph? (Y/N)");
+		String print = console.nextLine();
+		if (print.toUpperCase().startsWith("Y")) {
+			System.out.println("Characters:");
+			Set<GraphNode> chars = mp.graph.nodes();
+			for (GraphNode node: chars) {
+				System.out.println(node.getName());
+			}
+			System.out.println();
+			for (GraphNode node: chars) {
+				System.out.println(node.getName() + ":");
+				Set<GraphNode> children = mp.graph.childNode(node);
+				for (GraphNode child: children) {
+					System.out.println("\t" + child.getName() + ":");
+					List<String> edges = mp.graph.getEdgeData(node, child);
+					for (int i = 0; i < edges.size(); i++) {
+						System.out.println("\t\t" + edges.get(i));
+					}
 				}
 			}
+			System.out.println();
 		}
-		System.out.println();
 		//	
-		Scanner console = new Scanner(System.in);
 		boolean again = true;
 		while (again) {
 			System.out.println("What connection of characters are you interested in?");

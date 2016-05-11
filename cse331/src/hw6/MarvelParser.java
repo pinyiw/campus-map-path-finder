@@ -79,11 +79,13 @@ public class MarvelParser {
             String book = tokens[1];
 
             // Add the parsed data to the character and book collections.
-            characters.add(character);
-            if (!books.containsKey(book)) {
-                books.put(book, new ArrayList<String>());
+            if (character != null && character.length() != 0) {
+	            characters.add(character);
+	            if (!books.containsKey(book)) {
+	                books.put(book, new ArrayList<String>());
+	            }
+	            books.get(book).add(character);
             }
-            books.get(book).add(character);
         }
     } catch (IOException e) {
         System.err.println(e.toString());
