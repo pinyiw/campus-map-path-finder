@@ -17,20 +17,30 @@ import hw6.MarvelParser.MalformedDataException;
 
 
 /**
- * <b>MarvelPaths</b>
+ * <b>MarvelPaths</b> represents a <b>mutable</b> holder of a given graph or
+ * creates a graph from a given valid tsv format file. It can do BFS search
+ * on the graph and find the shortest path to reach from one given node to
+ * another.
  * 
  * @author pinyiw
  */
 
 public class MarvelPaths {
 	
+	/** The graph that stores the given data. */
 	public Graph graph;
 	
 	// Abstraction Function:
-	//
+	// MarvelPaths, mp, is a graph holder that holds a graph from a given graph
+	// or creates a graph from a given valid tsv format file, and it can do BFS
+	// search on the graph it constructed to find out the shortest path to
+	// reach from one node to another.
 	//
 	// Representation invariant for every MarvelPaths m:
-	//	
+	//	graph != null &&
+	//	forall GraphNode node in graph, node != null &&
+	//	forall GraphNode child of dest of an edge, child != null &&
+	//	forall edge data ed in graph, ed != null
 	
 	/** 
 	 * @param fileName the file name of the tsv data to be process.
@@ -44,9 +54,11 @@ public class MarvelPaths {
 		Map<String, List<String>> books = new HashMap<String, List<String>>();
 		MarvelParser.parseData(fileName, characters, books);
 		List<GraphNode> chars = new ArrayList<GraphNode>();
+		// Create and add GraphNodes to a list of GraphNode.
 		for (String character: characters) {
 			chars.add(new GraphNode(character));
 		}
+		// Initialize graph with the list of GraphNode and add edges.
 		graph = new Graph(chars);
 		for (String book: books.keySet()) {
 			List<String> curChars = books.get(book);
@@ -54,6 +66,7 @@ public class MarvelPaths {
 				GraphNode first = new GraphNode(curChars.get(i));
 				for (int j = i + 1; j < curChars.size(); j++) {
 					GraphNode second = new GraphNode(curChars.get(j));
+					// Add two-direction edges.
 					graph.addEdge(first, second, book);
 					graph.addEdge(second, first, book);
 				}
@@ -63,9 +76,10 @@ public class MarvelPaths {
 	}
 	
 	/**
-	 * @param graph the graph we want to find paths with
-	 * @throws IllegalArgumentException if graph == null
+	 * @param graph the graph we want to find paths with.
+	 * @throws IllegalArgumentException if graph == null.
 	 * @effects Constructs a new MarvelPath with the given graph.
+	 * @requires graph has no null node or null edge data.
 	 */
 	public MarvelPaths(Graph graph) {
 		if (graph == null) {
@@ -95,10 +109,12 @@ public class MarvelPaths {
 	public List<String> search(String char1, String char2) {
 		GraphNode start = new GraphNode(char1);
 		GraphNode dest = new GraphNode(char2);
+		// throw exception
 		if (char1 == null || char2 == null || !graph.contains(start)
 				|| !graph.contains(dest)) {
 			throw new IllegalArgumentException();
 		}
+		// initialization of BFS
 		Queue<GraphNode> workList = new LinkedList<GraphNode>();
 		Map<GraphNode, List<GraphNode>> paths = 
 							new HashMap<GraphNode, List<GraphNode>>();
@@ -106,12 +122,12 @@ public class MarvelPaths {
 		List<GraphNode> resultPath = new ArrayList<GraphNode>();
 		workList.add(start);
 		paths.put(start, new ArrayList<GraphNode>());
+		// start the loop part of BFS
 		while (!workList.isEmpty()) {
 			GraphNode cur = workList.remove();
 			if (cur.equals(dest)) {
 				resultPath = paths.get(cur);
-				// add the start node at the start of the list and dest node
-				// at the end of the list
+				// add the start node at the start of the list
 				resultPath.add(0, start);
 				workList.clear();
 			} else {
@@ -147,10 +163,13 @@ public class MarvelPaths {
 	 */
 	private List<String> processPathToReadableList(List<GraphNode> path) {
 		if (path.isEmpty()) {
+			// return null if no path found.
 			return null;
 		} else if (path.get(0).equals(path.get(path.size() - 1))) {
+			// return an empty list if start and dest are the same node.
 			return new ArrayList<String>();
 		} else {
+			// return a format list with each node follow by the edge.
 			List<String> result = new ArrayList<String>();
 			for (int i = 0; i < path.size() - 1; i++) {
 				result.add(path.get(i + 1).getName());
@@ -163,19 +182,26 @@ public class MarvelPaths {
 		}
 	}
 	
+	/** 
+	 * This main method construct a new MarvelPaths and interact with users to
+	 * print out the graph and find the shortest path from one given node to
+	 * another.
+	 */
 	public static void main(String[] args) throws MalformedDataException {
 		MarvelPaths mp = new MarvelPaths("src/hw6/data/staffSuperheroes.tsv");
 		Scanner console = new Scanner(System.in);
-		// test
+		// ask user whether should it print out the whole graph.
 		System.out.print("Do you want to print out the graph? (Y/N)");
 		String print = console.nextLine();
 		if (print.toUpperCase().startsWith("Y")) {
+			// print out all the nodes.
 			System.out.println("Characters:");
 			Set<GraphNode> chars = mp.graph.nodes();
 			for (GraphNode node: chars) {
 				System.out.println(node.getName());
 			}
 			System.out.println();
+			// print out all the edges.
 			for (GraphNode node: chars) {
 				System.out.println(node.getName() + ":");
 				Set<GraphNode> children = mp.graph.childNode(node);
@@ -189,7 +215,7 @@ public class MarvelPaths {
 			}
 			System.out.println();
 		}
-		//	
+		// start looping and ask what nodes connection user is interested in.
 		boolean again = true;
 		while (again) {
 			System.out.println("What connection of characters are you interested in?");
@@ -210,12 +236,14 @@ public class MarvelPaths {
 			}
 			System.out.println();
 		}
+		console.close();
 	}
 	
 	/**
 	 * Checks the representation invariant holds.
 	 */
 	private void checkRep() {
+		assert (graph != null) : "graph equals to null";
 		Set<GraphNode> nodes = graph.nodes();
 		for (GraphNode node: nodes) {
 			assert (node != null) : "node equals to null";

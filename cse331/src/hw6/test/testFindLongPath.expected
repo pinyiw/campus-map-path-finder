@@ -1,0 +1,8 @@
+# load graph
+loaded graph g
+
+# find path
+path from Java to Calculus:
+Java to Logic via CSE142
+Logic to Math via CSE312
+Math to Calculus via Math126

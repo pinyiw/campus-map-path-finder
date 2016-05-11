@@ -1,0 +1,8 @@
+# load graph
+LoadGraph g heroes.tsv
+
+# find path, one unknown
+FindPath g Java Physics
+
+# find path, two unknown
+FindPath g Chemistry Physics

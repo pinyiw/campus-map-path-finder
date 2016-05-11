@@ -1,0 +1,14 @@
+# load graph
+LoadGraph g heroes.tsv
+
+# check graph correctness
+# list nodes
+ListNodes g
+
+# list children
+ListChildren g Java
+ListChildren g C
+ListChildren g Logic
+ListChildren g Data
+ListChildren g Math
+ListChildren g Calculus

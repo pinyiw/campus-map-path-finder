@@ -1,0 +1,5 @@
+# Load graph
+LoadGraph staffs staffSuperheroes.tsv
+
+# Find path
+FindPath staffs Ernst-the-Bicycling-Wizard Ernst-the-Bicycling-Wizard

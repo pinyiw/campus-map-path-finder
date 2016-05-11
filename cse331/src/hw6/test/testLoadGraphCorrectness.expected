@@ -1,0 +1,14 @@
+# load graph
+loaded graph g
+
+# check graph correctness
+# list nodes
+g contains: C Calculus Data Java Logic Math
+
+# list children
+the children of Java in g are: Data(CSE143) Data(CSE332) Logic(CSE142) Logic(CSE143) Logic(CSE331) Logic(CSE332)
+the children of C in g are:
+the children of Logic in g are: Data(CSE143) Data(CSE332) Java(CSE142) Java(CSE143) Java(CSE331) Java(CSE332) Math(CSE312)
+the children of Data in g are: Java(CSE143) Java(CSE332) Logic(CSE143) Logic(CSE332)
+the children of Math in g are: Calculus(Math126) Logic(CSE312)
+the children of Calculus in g are: Math(Math126)
