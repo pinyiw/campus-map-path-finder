@@ -100,7 +100,6 @@ public class MarvelPaths {
 				// add the start node at the start of the list and dest node
 				// at the end of the list
 				resultPath.add(0, start);
-				resultPath.add(dest);
 				workList.clear();
 			} else {
 				for (GraphNode neighbor: graph.childNode(cur)) {
@@ -113,6 +112,10 @@ public class MarvelPaths {
 					}
 				}
 			}
+		}
+		System.out.println("resultPath: ");
+		for (int i = 0; i < resultPath.size(); i++) {
+			System.out.println(resultPath.get(i).getName());
 		}
 		return processPathToReadableList(resultPath);
 	}
@@ -158,7 +161,18 @@ public class MarvelPaths {
 		for (GraphNode node: chars) {
 			System.out.println(node.getName());
 		}
-		
+		System.out.println();
+		for (GraphNode node: chars) {
+			System.out.println(node.getName() + ":");
+			Set<GraphNode> children = mp.graph.childNode(node);
+			for (GraphNode child: children) {
+				System.out.println("\t" + child.getName() + ":");
+				List<String> edges = mp.graph.getEdgeData(node, child);
+				for (int i = 0; i < edges.size(); i++) {
+					System.out.println("\t\t" + edges.get(i));
+				}
+			}
+		}
 		System.out.println();
 		//	
 		Scanner console = new Scanner(System.in);
@@ -188,6 +202,17 @@ public class MarvelPaths {
 	 * Checks the representation invariant holds.
 	 */
 	private void checkRep() {
-		
+		Set<GraphNode> nodes = graph.nodes();
+		for (GraphNode node: nodes) {
+			assert (node != null) : "node equals to null";
+			Set<GraphNode> children = graph.childNode(node);
+			for (GraphNode child: children) {
+				assert (child != null) : "child equals to null";
+				List<String> edges = graph.getEdgeData(node, child);
+				for (int i = 0; i < edges.size(); i++) {
+					assert (edges.get(i) != null) : "edge equals to null";
+				}
+			}
+		}
 	}
 }
