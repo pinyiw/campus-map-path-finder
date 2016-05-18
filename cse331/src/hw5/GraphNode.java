@@ -10,26 +10,25 @@ package hw5;
  *
  */
 
-public class GraphNode {
+public class GraphNode<T> {
 	
 	/** Name of this node. */
-	private final String name;
+	private final T name;
 	
 	// Abstraction Function:
 	// GraphNode, n, is a node of graph that stores its own name.
 	//
 	// Representation invariant for every GraphNode n:
-	// 	name != null &&
-	// 	name.length() != 0
+	// 	name != null
 	
 	/** 
-	 * @param name the name of the GraphNode to be constructed.
-	 * @requires name != null && name is not empty string.
+	 * @param name the name of this GraphNode to be constructed.
+	 * @requires name != null.
 	 * @effects Constructs a new GraphNode with name = name.
-	 * @throws IllegalArgumentException if name == null || name is empty.
+	 * @throws IllegalArgumentException if name == null.
 	 */
-	public GraphNode(String name) {
-		if (name == null || name.length() == 0) {
+	public GraphNode(T name) {
+		if (name == null) {
 			throw new IllegalArgumentException();
 		}
 		this.name = name;
@@ -41,7 +40,7 @@ public class GraphNode {
 	 * 
 	 * @return the name of this GraphNode.
 	 */
-	public String getName() {
+	public T getName() {
 		return this.name;
 	}
 	
@@ -71,7 +70,6 @@ public class GraphNode {
 	 */
 	private void checkRep() {
 		assert (name != null) : "name == null";
-		assert (name.length() != 0) : "name is empty string";
 	}
 	
 }

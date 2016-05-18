@@ -22,10 +22,10 @@ import java.util.Set;
  * @author pinyiw
  */
 
-public class Graph {
+public class Graph<T, D> {
 	
 	/** The map that stores all the nodes and edges. */
-	private Map<GraphNode, Map<GraphNode, List<String>>> map;
+	private Map<GraphNode<T>, Map<GraphNode<T>, List<D>>> map;
 	
 	// Abstraction Function:
 	// Graph, g, is a directed labeled multigraph that stores a list of
@@ -41,7 +41,7 @@ public class Graph {
 	 * @effects Constructs a new Graph with no node or edge
 	 */
 	public Graph() {
-		map = new HashMap<GraphNode, Map<GraphNode, List<String>>>();
+		map = new HashMap<GraphNode<T>, Map<GraphNode<T>, List<D>>>();
 		//checkRep();
 	}
 	
@@ -52,13 +52,13 @@ public class Graph {
 	 * @requires no repeated node in list
 	 * @throws IllegalArgumentException if list == null.
 	 */
-	public Graph(List<GraphNode> list) {
+	public Graph(List<GraphNode<T>> list) {
+		this();
 		if (list == null) {
 			throw new IllegalArgumentException();
 		}
-		map = new HashMap<GraphNode, Map<GraphNode, List<String>>>();
 		for (int i = 0; i < list.size(); i++) {
-			map.put(list.get(i), new HashMap<GraphNode, List<String>>());
+			map.put(list.get(i), new HashMap<GraphNode<T>, List<D>>());
 		}
 		//checkRep();
 	}
@@ -70,7 +70,7 @@ public class Graph {
 	 * @requires node != null.
 	 * @return true if node is in this Graph, otherwise, false.
 	 */
-	public boolean contains(GraphNode node) {
+	public boolean contains(GraphNode<T> node) {
 		return map.containsKey(node);
 	}
 	
@@ -101,12 +101,12 @@ public class Graph {
 	 * @throws IllegalArgumentexception if start == null || dest == null ||
 	 * 		   start or dest is not in this Graph.
 	 */
-	public boolean isConnected(GraphNode start, GraphNode dest) {
+	public boolean isConnected(GraphNode<T> start, GraphNode<T> dest) {
 		if (start == null || dest == null || !this.contains(start) ||
 											!this.contains(dest)) {
 			throw new IllegalArgumentException();
 		}
-		Set<GraphNode> set = map.get(start).keySet();
+		Set<GraphNode<T>> set = map.get(start).keySet();
 		return set.contains(dest);
 	}
 	
@@ -118,9 +118,9 @@ public class Graph {
 	 * @return true if node is added to this Graph, false if node is already
 	 * 		   in it.
 	 */
-	public boolean addNode(GraphNode node) {
+	public boolean addNode(GraphNode<T> node) {
 		if (!this.contains(node)) {
-			map.put(node, new HashMap<GraphNode, List<String>>());
+			map.put(node, new HashMap<GraphNode<T>, List<D>>());
 			//checkRep();
 			return true;
 		}
@@ -138,13 +138,13 @@ public class Graph {
 	 * @throws IllegalArgumentException if start or dest is not in this Graph
 	 * 				|| data == null.
 	 */
-	public boolean addEdge(GraphNode start, GraphNode dest, String data) {
+	public boolean addEdge(GraphNode<T> start, GraphNode<T> dest, D data) {
 		if (!this.contains(start) || !this.contains(dest) || data == null) {
 			throw new IllegalArgumentException();
 		}
 		boolean wasConnected = this.isConnected(start, dest);
 		if (!wasConnected) {
-			map.get(start).put(dest, new LinkedList<String>());
+			map.get(start).put(dest, new LinkedList<D>());
 		}
 		map.get(start).get(dest).add(data);
 		//checkRep();
@@ -161,7 +161,7 @@ public class Graph {
 	 * 		   list of string data of edges that reach dest from start.
 	 * @throws IllegalArgumentException if start or dest is not in this Graph.
 	 */
-	public List<String> getEdgeData(GraphNode start, GraphNode dest) {
+	public List<D> getEdgeData(GraphNode<T> start, GraphNode<T> dest) {
 		if (!this.contains(start) || !this.contains(dest)) {
 			throw new IllegalArgumentException();
 		}
@@ -179,11 +179,11 @@ public class Graph {
 	 * @return the set of child node of 'node'.
 	 * @throws IllegalArgumentException if node is not in this Graph.
 	 */
-	public Set<GraphNode> childNode(GraphNode node) {
+	public Set<GraphNode<T>> childNode(GraphNode<T> node) {
 		if (!this.contains(node)) {
 			throw new IllegalArgumentException();
 		}
-		Set<GraphNode> nodes = map.get(node).keySet();
+		Set<GraphNode<T>> nodes = map.get(node).keySet();
 		return nodes;
 	}
 	
@@ -192,8 +192,8 @@ public class Graph {
 	 * 
 	 * @return all the nodes in this Graph as a set.
 	 */
-	public Set<GraphNode> nodes() {
-		Set<GraphNode> temp = new HashSet<GraphNode>();
+	public Set<GraphNode<T>> nodes() {
+		Set<GraphNode<T>> temp = new HashSet<GraphNode<T>>();
 		temp.addAll(map.keySet());
 		return temp;
 	}
@@ -203,13 +203,13 @@ public class Graph {
 	 */
 	private void checkRep() {
 		assert (map != null) : "map == null";
-		for (GraphNode node: map.keySet()) {
+		for (GraphNode<T> node: map.keySet()) {
 			assert (map.get(node) != null) : "null dest map";
-			Map<GraphNode, List<String>> cur = map.get(node);
-			for (GraphNode dest: cur.keySet()) {
+			Map<GraphNode<T>, List<D>> cur = map.get(node);
+			for (GraphNode<T> dest: cur.keySet()) {
 				assert(cur.get(dest) != null) : "null dest list";
 				assert(cur.get(dest).size() != 0) : "empty dest list";
-				List<String> list = cur.get(dest);
+				List<D> list = cur.get(dest);
 				for (int i = 0; i < list.size(); i++) {
 					assert(list.get(i) != null) : "null edge data";
 				}

@@ -56,7 +56,7 @@ public class HW5TestDriver {
     /** String -> Graph: maps the names of graphs to the actual graph **/
     //TODO for the student: Parameterize the next line correctly.
     //private final Map<String, _______> graphs = new HashMap<String, ________>();
-    private final Map<String, Graph> graphs = new HashMap<String, Graph>();
+    private final Map<String, Graph<String, String>> graphs = new HashMap<String, Graph<String, String>>();
     private final PrintWriter output;
     private final BufferedReader input;
 
@@ -138,7 +138,7 @@ public class HW5TestDriver {
 
         // graphs.put(graphName, ___);
         // output.println(...);
-    	Graph g = new Graph();
+    	Graph<String, String> g = new Graph<String, String>();
     	graphs.put(graphName, g);
     	output.println("created graph " + graphName);
     }
@@ -159,8 +159,8 @@ public class HW5TestDriver {
 
         // ___ = graphs.get(graphName);
         // output.println(...);
-    	Graph g = graphs.get(graphName);
-    	g.addNode(new GraphNode(nodeName));
+    	Graph<String, String> g = graphs.get(graphName);
+    	g.addNode(new GraphNode<String>(nodeName));
     	output.println("added node " + nodeName + " to " + graphName);
     }
 
@@ -183,8 +183,8 @@ public class HW5TestDriver {
 
         // ___ = graphs.get(graphName);
         // output.println(...);
-    	Graph g = graphs.get(graphName);
-    	g.addEdge(new GraphNode(parentName), new GraphNode(childName), edgeLabel);
+    	Graph<String, String> g = graphs.get(graphName);
+    	g.addEdge(new GraphNode<String>(parentName), new GraphNode<String>(childName), edgeLabel);
     	output.println("added edge " + edgeLabel + " from " + parentName +
     					" to " + childName + " in " + graphName);
     }
@@ -203,11 +203,11 @@ public class HW5TestDriver {
 
         // ___ = graphs.get(graphName);
         // output.println(...);
-    	Graph g = graphs.get(graphName);
-    	Set<GraphNode> set = g.nodes();
+    	Graph<String, String> g = graphs.get(graphName);
+    	Set<GraphNode<String>> set = g.nodes();
     	String[] arr = new String[set.size()];
     	int count = 0;
-    	for (GraphNode node: set) {
+    	for (GraphNode<String> node: set) {
     		arr[count] = node.getName();
     		count++;
     	}
@@ -234,19 +234,19 @@ public class HW5TestDriver {
 
         // ___ = graphs.get(graphName);
         // output.println(...);
-    	Graph g = graphs.get(graphName);
-    	Set<GraphNode> set = g.childNode(new GraphNode(parentName));
+    	Graph<String, String> g = graphs.get(graphName);
+    	Set<GraphNode<String>> set = g.childNode(new GraphNode<String>(parentName));
     	String[] arr = new String[set.size()];
     	int count = 0;
-    	for (GraphNode node: set) {
+    	for (GraphNode<String> node: set) {
     		arr[count] = node.getName();
     		count++;
     	}
     	Arrays.sort(arr);
     	for (int i = 0; i < arr.length; i++) {
     		String cur = arr[i];
-    		List<String> list = g.getEdgeData(new GraphNode(parentName),
-    											new GraphNode(arr[i]));
+    		List<String> list = g.getEdgeData(new GraphNode<String>(parentName),
+    											new GraphNode<String>(arr[i]));
     		Collections.sort(list);
     		arr[i] += "(" + list.get(0) + ")";
     		for (int j = 1; j < list.size(); j++) {

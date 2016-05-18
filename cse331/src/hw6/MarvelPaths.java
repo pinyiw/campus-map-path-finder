@@ -28,7 +28,7 @@ import hw6.MarvelParser.MalformedDataException;
 public class MarvelPaths {
 	
 	/** The graph that stores the given data. */
-	public Graph graph;
+	public Graph<String, String> graph;
 	
 	// Abstraction Function:
 	// MarvelPaths, mp, is a graph holder that holds a graph from a given graph
@@ -53,19 +53,19 @@ public class MarvelPaths {
 		Set<String> characters = new HashSet<String>();
 		Map<String, List<String>> books = new HashMap<String, List<String>>();
 		MarvelParser.parseData(fileName, characters, books);
-		List<GraphNode> chars = new ArrayList<GraphNode>();
+		List<GraphNode<String>> chars = new ArrayList<GraphNode<String>>();
 		// Create and add GraphNodes to a list of GraphNode.
 		for (String character: characters) {
-			chars.add(new GraphNode(character));
+			chars.add(new GraphNode<String>(character));
 		}
 		// Initialize graph with the list of GraphNode and add edges.
-		graph = new Graph(chars);
+		graph = new Graph<String, String>(chars);
 		for (String book: books.keySet()) {
 			List<String> curChars = books.get(book);
 			for (int i = 0; i < curChars.size() - 1; i++) {
-				GraphNode first = new GraphNode(curChars.get(i));
+				GraphNode<String> first = new GraphNode<String>(curChars.get(i));
 				for (int j = i + 1; j < curChars.size(); j++) {
-					GraphNode second = new GraphNode(curChars.get(j));
+					GraphNode<String> second = new GraphNode<String>(curChars.get(j));
 					// Add two-direction edges.
 					graph.addEdge(first, second, book);
 					graph.addEdge(second, first, book);
@@ -81,7 +81,7 @@ public class MarvelPaths {
 	 * @effects Constructs a new MarvelPath with the given graph.
 	 * @requires graph has no null node or null edge data.
 	 */
-	public MarvelPaths(Graph graph) {
+	public MarvelPaths(Graph<String, String> graph) {
 		if (graph == null) {
 			throw new IllegalArgumentException();
 		}
@@ -107,33 +107,33 @@ public class MarvelPaths {
 	 * 		   It would return: [charA, book1, charB, book2, char2, book3].
 	 */
 	public List<String> search(String char1, String char2) {
-		GraphNode start = new GraphNode(char1);
-		GraphNode dest = new GraphNode(char2);
+		GraphNode<String> start = new GraphNode<String>(char1);
+		GraphNode<String> dest = new GraphNode<String>(char2);
 		// throw exception
 		if (char1 == null || char2 == null || !graph.contains(start)
 				|| !graph.contains(dest)) {
 			throw new IllegalArgumentException();
 		}
 		// initialization of BFS
-		Queue<GraphNode> workList = new LinkedList<GraphNode>();
-		Map<GraphNode, List<GraphNode>> paths = 
-							new HashMap<GraphNode, List<GraphNode>>();
+		Queue<GraphNode<String>> workList = new LinkedList<GraphNode<String>>();
+		Map<GraphNode<String>, List<GraphNode<String>>> paths = 
+							new HashMap<GraphNode<String>, List<GraphNode<String>>>();
 		
-		List<GraphNode> resultPath = new ArrayList<GraphNode>();
+		List<GraphNode<String>> resultPath = new ArrayList<GraphNode<String>>();
 		workList.add(start);
-		paths.put(start, new ArrayList<GraphNode>());
+		paths.put(start, new ArrayList<GraphNode<String>>());
 		// start the loop part of BFS
 		while (!workList.isEmpty()) {
-			GraphNode cur = workList.remove();
+			GraphNode<String> cur = workList.remove();
 			if (cur.equals(dest)) {
 				resultPath = paths.get(cur);
 				// add the start node at the start of the list
 				resultPath.add(0, start);
 				workList.clear();
 			} else {
-				for (GraphNode neighbor: graph.childNode(cur)) {
+				for (GraphNode<String> neighbor: graph.childNode(cur)) {
 					if (!paths.containsKey(neighbor)) {
-						List<GraphNode> curPath = new ArrayList<GraphNode>();
+						List<GraphNode<String>> curPath = new ArrayList<GraphNode<String>>();
 						curPath.addAll(paths.get(cur));
 						curPath.add(neighbor);
 						paths.put(neighbor, curPath);
@@ -161,7 +161,7 @@ public class MarvelPaths {
 	 * 						charB to char2 via book3,
 	 * 		   It would return: [charA, book1, charB, book2, char2, book3].
 	 */
-	private List<String> processPathToReadableList(List<GraphNode> path) {
+	private List<String> processPathToReadableList(List<GraphNode<String>> path) {
 		if (path.isEmpty()) {
 			// return null if no path found.
 			return null;
@@ -188,7 +188,7 @@ public class MarvelPaths {
 	 * another.
 	 */
 	public static void main(String[] args) throws MalformedDataException {
-		MarvelPaths mp = new MarvelPaths("src/hw6/data/staffSuperheroes.tsv");
+		MarvelPaths mp = new MarvelPaths("src/hw6/data/marvel.tsv");
 		Scanner console = new Scanner(System.in);
 		// ask user whether should it print out the whole graph.
 		System.out.print("Do you want to print out the graph? (Y/N)");
@@ -196,16 +196,16 @@ public class MarvelPaths {
 		if (print.toUpperCase().startsWith("Y")) {
 			// print out all the nodes.
 			System.out.println("Characters:");
-			Set<GraphNode> chars = mp.graph.nodes();
-			for (GraphNode node: chars) {
+			Set<GraphNode<String>> chars = mp.graph.nodes();
+			for (GraphNode<String> node: chars) {
 				System.out.println(node.getName());
 			}
 			System.out.println();
 			// print out all the edges.
-			for (GraphNode node: chars) {
+			for (GraphNode<String> node: chars) {
 				System.out.println(node.getName() + ":");
-				Set<GraphNode> children = mp.graph.childNode(node);
-				for (GraphNode child: children) {
+				Set<GraphNode<String>> children = mp.graph.childNode(node);
+				for (GraphNode<String> child: children) {
 					System.out.println("\t" + child.getName() + ":");
 					List<String> edges = mp.graph.getEdgeData(node, child);
 					for (int i = 0; i < edges.size(); i++) {
@@ -244,11 +244,11 @@ public class MarvelPaths {
 	 */
 	private void checkRep() {
 		assert (graph != null) : "graph equals to null";
-		Set<GraphNode> nodes = graph.nodes();
-		for (GraphNode node: nodes) {
+		Set<GraphNode<String>> nodes = graph.nodes();
+		for (GraphNode<String> node: nodes) {
 			assert (node != null) : "node equals to null";
-			Set<GraphNode> children = graph.childNode(node);
-			for (GraphNode child: children) {
+			Set<GraphNode<String>> children = graph.childNode(node);
+			for (GraphNode<String> child: children) {
 				assert (child != null) : "child equals to null";
 				List<String> edges = graph.getEdgeData(node, child);
 				for (int i = 0; i < edges.size(); i++) {

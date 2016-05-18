@@ -60,7 +60,7 @@ public class HW6TestDriver {
   
   private final PrintWriter output;
   private final BufferedReader input;
-  private final Map<String, Graph> graphs = new HashMap<String, Graph>();
+  private final Map<String, Graph<String, String>> graphs = new HashMap<String, Graph<String, String>>();
   
   public HW6TestDriver(Reader r, Writer w) {
 	  input = new BufferedReader(r);
@@ -146,14 +146,14 @@ public class HW6TestDriver {
   }
   
   private void findPath(String graphName, String node1, String node2) {
-	  Graph g = graphs.get(graphName);
-	  GraphNode node_1 = new GraphNode(node1);
-	  GraphNode node_2 = new GraphNode(node2);
+	  Graph<String, String> g = graphs.get(graphName);
+	  GraphNode<String> node_1 = new GraphNode<String>(node1);
+	  GraphNode<String> node_2 = new GraphNode<String>(node2);
 	  if (!g.contains(node_1) || !g.contains(node_2)) {
-		  if (!g.contains(new GraphNode(node1))) {
+		  if (!g.contains(new GraphNode<String>(node1))) {
 			  output.println("unknown character " + node1);
 		  }
-		  if (!g.contains(new GraphNode(node2))) {
+		  if (!g.contains(new GraphNode<String>(node2))) {
 			  output.println("unknown character " + node2);
 		  }
 	  } else {
@@ -187,7 +187,7 @@ public class HW6TestDriver {
 
       // graphs.put(graphName, ___);
       // output.println(...);
-  	Graph g = new Graph();
+  	Graph<String, String> g = new Graph<String, String>();
   	graphs.put(graphName, g);
   	output.println("created graph " + graphName);
   }
@@ -208,8 +208,8 @@ public class HW6TestDriver {
 
       // ___ = graphs.get(graphName);
       // output.println(...);
-  	Graph g = graphs.get(graphName);
-  	g.addNode(new GraphNode(nodeName));
+  	Graph<String, String> g = graphs.get(graphName);
+  	g.addNode(new GraphNode<String>(nodeName));
   	output.println("added node " + nodeName + " to " + graphName);
   }
 
@@ -232,8 +232,8 @@ public class HW6TestDriver {
 
       // ___ = graphs.get(graphName);
       // output.println(...);
-  	Graph g = graphs.get(graphName);
-  	g.addEdge(new GraphNode(parentName), new GraphNode(childName), edgeLabel);
+  	Graph<String, String> g = graphs.get(graphName);
+  	g.addEdge(new GraphNode<String>(parentName), new GraphNode<String>(childName), edgeLabel);
   	output.println("added edge " + edgeLabel + " from " + parentName +
   					" to " + childName + " in " + graphName);
   }
@@ -252,11 +252,11 @@ public class HW6TestDriver {
 
       // ___ = graphs.get(graphName);
       // output.println(...);
-  	Graph g = graphs.get(graphName);
-  	Set<GraphNode> set = g.nodes();
+  	Graph<String, String> g = graphs.get(graphName);
+  	Set<GraphNode<String>> set = g.nodes();
   	String[] arr = new String[set.size()];
   	int count = 0;
-  	for (GraphNode node: set) {
+  	for (GraphNode<String> node: set) {
   		arr[count] = node.getName();
   		count++;
   	}
@@ -283,19 +283,19 @@ public class HW6TestDriver {
 
       // ___ = graphs.get(graphName);
       // output.println(...);
-  	Graph g = graphs.get(graphName);
-  	Set<GraphNode> set = g.childNode(new GraphNode(parentName));
+  	Graph<String, String> g = graphs.get(graphName);
+  	Set<GraphNode<String>> set = g.childNode(new GraphNode<String>(parentName));
   	String[] arr = new String[set.size()];
   	int count = 0;
-  	for (GraphNode node: set) {
+  	for (GraphNode<String> node: set) {
   		arr[count] = node.getName();
   		count++;
   	}
   	Arrays.sort(arr);
   	for (int i = 0; i < arr.length; i++) {
   		String cur = arr[i];
-  		List<String> list = g.getEdgeData(new GraphNode(parentName),
-  											new GraphNode(arr[i]));
+  		List<String> list = g.getEdgeData(new GraphNode<String>(parentName),
+  											new GraphNode<String>(arr[i]));
   		Collections.sort(list);
   		arr[i] += "(" + list.get(0) + ")";
   		for (int j = 1; j < list.size(); j++) {

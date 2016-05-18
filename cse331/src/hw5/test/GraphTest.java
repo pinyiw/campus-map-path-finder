@@ -21,39 +21,39 @@ import org.junit.Test;
 
 public final class GraphTest {
 	
-	private Graph zeroNode;
-	private Graph oneNode;
-	private Graph twoNode;
-	private Graph threeNode;
+	private Graph<String, String> zeroNode;
+	private Graph<String, String> oneNode;
+	private Graph<String, String> twoNode;
+	private Graph<String, String> threeNode;
 	
-	private GraphNode a = new GraphNode("a");
-	private GraphNode b = new GraphNode("b");
-	private GraphNode c = new GraphNode("c");
+	private GraphNode<String> a = new GraphNode<String>("a");
+	private GraphNode<String> b = new GraphNode<String>("b");
+	private GraphNode<String> c = new GraphNode<String>("c");
 
 	private void init() {
-		List<GraphNode> list = new LinkedList<GraphNode>();
+		List<GraphNode<String>> list = new LinkedList<GraphNode<String>>();
 		list.add(a);
 		
-		zeroNode = new Graph();
-		oneNode = new Graph(list);
+		zeroNode = new Graph<String, String>();
+		oneNode = new Graph<String, String>(list);
 		
 		list.add(b);
-		twoNode = new Graph(list);
+		twoNode = new Graph<String, String>(list);
 		
 		list.add(c);
-		threeNode = new Graph(list);
+		threeNode = new Graph<String, String>(list);
 	}
 	
 	@Test
 	public void testEmptyNodeConstructor() {
-		Graph g = new Graph();
+		Graph<String, String> g = new Graph<String, String>();
 		assertTrue(g.isEmpty());
 	}
 	
 	@Test
 	public void testListConstructor() {
 		init();
-		Graph g = new Graph(new LinkedList<GraphNode>());
+		Graph<String, String> g = new Graph<String, String>(new LinkedList<GraphNode<String>>());
 		assertTrue(g.isEmpty());
 	}
 	
@@ -92,7 +92,7 @@ public final class GraphTest {
 	
 	@Test
 	public void testAddNode() {
-		Graph g = new Graph();
+		Graph<String, String> g = new Graph<String, String>();
 		assertTrue(g.addNode(a));
 		assertTrue(g.addNode(b));
 		assertFalse(g.addNode(a));
@@ -179,16 +179,16 @@ public final class GraphTest {
 		threeNode.addEdge(b, c, "");
 		threeNode.addEdge(b, b, "");
 		threeNode.addEdge(c, a, "");
-		Set<GraphNode> setA = threeNode.childNode(a);
+		Set<GraphNode<String>> setA = threeNode.childNode(a);
 		for (int i = 0; i < 3; i++) {
 			assertTrue(setA.contains(arr[i]));
 		}
-		Set<GraphNode> setB = threeNode.childNode(b);
+		Set<GraphNode<String>> setB = threeNode.childNode(b);
 		for (int i = 1; i < 3; i++) {
 			assertTrue(setB.contains(arr[i]));
 		}
 		assertFalse(setB.contains(a));
-		Set<GraphNode> setC = threeNode.childNode(c);
+		Set<GraphNode<String>> setC = threeNode.childNode(c);
 		for (int i = 1; i < 3; i++) {
 			assertFalse(setC.contains(arr[i]));
 		}
@@ -206,17 +206,17 @@ public final class GraphTest {
 	@Test
 	public void testNodes() {
 		init();
-		Set<GraphNode> set0 = zeroNode.nodes();
+		Set<GraphNode<String>> set0 = zeroNode.nodes();
 		assertFalse(set0.contains(a));
 		assertFalse(set0.contains(b));
 		assertFalse(set0.contains(c));
 		
-		Set<GraphNode> set1 = oneNode.nodes();
+		Set<GraphNode<String>> set1 = oneNode.nodes();
 		assertTrue(set1.contains(a));
 		assertFalse(set1.contains(b));
 		assertFalse(set1.contains(c));
 		
-		Set<GraphNode> set2 = twoNode.nodes();
+		Set<GraphNode<String>> set2 = twoNode.nodes();
 		assertTrue(set2.contains(a));
 		assertTrue(set2.contains(b));
 		assertFalse(set2.contains(c));
