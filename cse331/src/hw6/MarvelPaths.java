@@ -131,7 +131,11 @@ public class MarvelPaths {
 				resultPath.add(0, start);
 				workList.clear();
 			} else {
-				for (GraphNode<String> neighbor: graph.childNode(cur)) {
+				Set<GraphNode<String>> neigborSet = graph.childNode(cur);
+				List<GraphNode<String>> neighbors = new ArrayList<GraphNode<String>>();
+				neighbors.addAll(neigborSet);
+				Collections.sort(neighbors, new StringGraphNodeComparator());
+				for (GraphNode<String> neighbor: neighbors) {
 					if (!paths.containsKey(neighbor)) {
 						List<GraphNode<String>> curPath = new ArrayList<GraphNode<String>>();
 						curPath.addAll(paths.get(cur));
