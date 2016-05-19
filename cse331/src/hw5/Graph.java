@@ -20,6 +20,9 @@ import java.util.Set;
  * of the edge, B is the list of node that can be reachable from 'a'. 
  * 
  * @author pinyiw
+ * 
+ * @param <T> the type of the name stored in GraphNode of this Graph.
+ * @param <D> the type of the edge data stored in this Graph.
  */
 
 public class Graph<T, D> {

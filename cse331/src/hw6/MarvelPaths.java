@@ -94,6 +94,8 @@ public class MarvelPaths {
 	 * 
 	 * @param char1 the character we want to start on.
 	 * @param char2 the character we want to find path from char1.
+	 * @throws IllegalArgumenException if char1 == null || char2 == null ||
+	 * 		   graph does not contains char1 or char2.
 	 * @return null if connection between char1 and char2 was not found, 
 	 * 		   an empty list of string if char1 == char2,
 	 * 		   otherwise, return a list of string with each characters followed

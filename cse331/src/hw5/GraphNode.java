@@ -60,6 +60,11 @@ public class GraphNode<T> {
 		}
 	}
 	
+	/**
+	 * Returns the hash code of this GraphNode.
+	 * 
+	 * @return the hashCode of this GraphNode.
+	 */
 	@Override
 	public int hashCode() {
 		return this.name.hashCode();
