@@ -1,0 +1,5 @@
+# load graph
+LoadGraph g marvel.tsv
+
+# find long path
+FindPath g DOC_SAMSON/DR._LEONA LOBO

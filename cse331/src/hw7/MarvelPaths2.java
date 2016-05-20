@@ -13,26 +13,10 @@ import hw5.GraphNode;
 import hw6.MarvelParser.MalformedDataException;
 import hw6.MarvelPaths;
 
-/**
- * <b>MarvelPaths2</b> represents a <b>mutable</b> holder of a given graph or
- * creates a graph from a given valid tsv format file. It can do Dijkstra's
- * Algorithm on the graph and find the shortest path (more books connecting
- * each Marvel heroes in the path) to reach from the given node to another.
- * 
- * @author pinyiw
- */
-
 public class MarvelPaths2 {
 	
-	
-	// Abstraction Function:
-	//
-	//
-	// Representation invariant for every MarvelPaths2 m:
-	//	graph != null &&
-	//	forall GraphNode node in graph, node != null &&
-	//	forall GraphNode child of dest of an edge, child != null &&
-	//	forall edge data ed in graph, ed != null.
+	// This is not an ADT.
+	// Abstraction Function and Representation invariant would normally be here.
 	
 	/**
 	 * Constructs and returns a Graph from the given file name that stores
@@ -126,9 +110,18 @@ public class MarvelPaths2 {
 	 * shortest path from one given node to another.
 	 */
 	public static void main(String[] args) throws MalformedDataException {
-		// heroes.tsv || marvel.tsv || staffSuperheroes.tsv
-		Graph<String, Double> graph = loadGraph("src/hw7/data/heroes.tsv");
 		Scanner console = new Scanner(System.in);
+		// heroes.tsv || marvel.tsv || staffSuperheroes.tsv
+		System.out.println("Which data file do you want to load?");
+		System.out.println("1. heroes.tsv  2. marvel.tsv  3. staffSuperheroes.tsv");
+		String choice = console.nextLine().trim();
+		String file = "staffSuperheroes.tsv";
+		if (choice.equals("1")) {
+			file = "heroes.tsv";
+		} else if (choice.equals("2")) {
+			file = "marvel.tsv";
+		}
+		Graph<String, Double> graph = loadGraph("src/hw7/data/" + file);
 		// ask user whether should it print out the whole graph.
 		System.out.print("Do you want to print out the graph? (Y/N)");
 		String print = console.nextLine();
@@ -141,6 +134,7 @@ public class MarvelPaths2 {
 			}
 			System.out.println();
 			// print out all the edges.
+			int edgeCount = 0;
 			for (GraphNode<String> node: chars) {
 				System.out.println(node.getName() + ":");
 				Set<GraphNode<String>> children = graph.childNode(node);
@@ -148,10 +142,13 @@ public class MarvelPaths2 {
 					System.out.println("\t" + child.getName() + ":");
 					List<Double> edges = graph.getEdgeData(node, child);
 					for (int i = 0; i < edges.size(); i++) {
+						edgeCount++;
 						System.out.println("\t\t" + edges.get(i));
 					}
 				}
 			}
+			System.out.println("Edge Count: " + edgeCount);
+			System.out.println("Node Count: " + graph.nodeSize());
 			System.out.println();
 		}
 		// start looping and ask what nodes connection user is interested in.
@@ -187,19 +184,4 @@ public class MarvelPaths2 {
 		console.close();
 	}
 	
-	/**
-	 * Checks the representation invariant holds.
-	 */
-//	private void checkRep() {
-//		assert (graph != null) : "graph equals to null";
-//		for (GraphNode<String> node: graph.nodes()) {
-//			assert (node != null) : "node equals to null";
-//			for (GraphNode<String> child: graph.childNode(node)) {
-//				assert (child != null) : "child node equals to null";
-//				for (Double weight: graph.getEdgeData(node, child)) {
-//					assert (weight != null) : "weight equals to null";
-//				}
-//			}
-//		}
-//	}
 }

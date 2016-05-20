@@ -1,0 +1,5 @@
+# load graph
+LoadGraph g heroes.tsv
+
+# find path
+FindPath g Java C

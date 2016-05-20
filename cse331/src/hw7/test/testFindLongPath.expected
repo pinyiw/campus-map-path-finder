@@ -1,0 +1,10 @@
+# load graph
+loaded graph g
+
+# find long path
+path from DOC SAMSON/DR. LEONA to LOBO:
+DOC SAMSON/DR. LEONA to HULK/DR. ROBERT BRUC with weight 0.009
+HULK/DR. ROBERT BRUC to CAPTAIN AMERICA with weight 0.009
+CAPTAIN AMERICA to IRON MAN/TONY STARK  with weight 0.002
+IRON MAN/TONY STARK  to LOBO with weight 0.200
+total cost: 0.220

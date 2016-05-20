@@ -1,0 +1,13 @@
+# load graph
+LoadGraph g heroes.tsv
+
+# print out the nodes
+ListNodes g
+
+# print out the children of all nodes
+ListChildren g Java
+ListChildren g C
+ListChildren g Logic
+ListChildren g Data
+ListChildren g Math
+ListChildren g Calculus

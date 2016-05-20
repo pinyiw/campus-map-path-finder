@@ -159,11 +159,11 @@ public class HW7TestDriver {
   		  }
   	  } else {
   		  GraphNodePath<String> gnp = MarvelPaths2.findPath(g, node1, node2);
-  		  List<GraphNode<String>> path = gnp.getPath();
-  		  output.println("path from " + node1 + " to " + node2 + ":");
-  		  if (path == null) {
+  		  if (gnp == null) {
   			  output.println("no path found");
   		  } else {
+  			  List<GraphNode<String>> path = gnp.getPath();
+  			  output.println("path from " + node1 + " to " + node2 + ":");
   			  if (path.size() == 1) {
   				  path.clear();
   			  }

@@ -1,0 +1,13 @@
+# load graph
+loaded graph g
+
+# print out the nodes
+g contains: C Calculus Data Java Logic Math
+
+# print out the children of all nodes
+the children of Java in g are: Data(0.500) Java(0.000) Logic(0.250)
+the children of C in g are: C(0.000)
+the children of Logic in g are: Data(0.500) Java(0.250) Logic(0.000) Math(1.000)
+the children of Data in g are: Data(0.000) Java(0.500) Logic(0.500)
+the children of Math in g are: Calculus(1.000) Logic(1.000) Math(0.000)
+the children of Calculus in g are: Calculus(0.000) Math(1.000)

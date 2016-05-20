@@ -7,7 +7,7 @@ package hw5;
  * It stores a String name of itself.
  * 
  * @author pinyiw
- *
+ * @param <T> the type stored in this GraphNode.
  */
 
 public class GraphNode<T> {

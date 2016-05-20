@@ -1,0 +1,9 @@
+# load graph
+loaded graph g
+
+# find path
+path from Java to Calculus:
+Java to Logic with weight 0.250
+Logic to Math with weight 1.000
+Math to Calculus with weight 1.000
+total cost: 2.250
