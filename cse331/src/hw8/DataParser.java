@@ -8,6 +8,10 @@ import javafx.util.Pair;
  * Parser utility to load the UW map dataset.
  */
 public class DataParser {
+	
+	// This is not an ADT.
+	// Abstraction Function and Representation invariant would normally be here.
+		
 	/**
 	 * A checked exception class for bad data files
 	 */
@@ -130,9 +134,9 @@ public class DataParser {
 				}
 				String next = reader.readLine();
 				
-				while (next.startsWith("\t")) {
+				while (next != null && next.startsWith("\t")) {
 					next = next.trim();
-					String tokens[] = next.split(": ");
+					String[] tokens = next.split(": ");
 					if (tokens.length != 2) {
 						throw new MalformedDataException("Line should have two"
 								+ "coordinates and one distance: " + next);
@@ -148,7 +152,7 @@ public class DataParser {
 					Pair<String, String> dest = new Pair<String, String>(x2, y2);
 					Pair<Pair<String, String>, Double> data = 
 							new Pair<Pair<String, String>, Double>(dest, distance);
-					paths.get(first).add(data);
+					paths.get(start).add(data);
 					next = reader.readLine();
 				}
 				first = next;
@@ -166,5 +170,13 @@ public class DataParser {
 				}
 			}
 		}
+	}
+	
+	private static void print(String[] arr) {
+		System.out.print("[" + arr[0]);
+		for (int i = 1; i < arr.length; i++) {
+			System.out.print(", " + arr[i]);
+		}
+		System.out.println("]");
 	}
 }

@@ -1,5 +1,7 @@
 package hw8;
 
+import javafx.util.Pair;
+
 /**
  * <b>Location</b> represents a <b>immutable</b> location that has a short
  * name, long name, and x and y coordinates.
@@ -47,6 +49,26 @@ public class Location {
 		this.longName = longName;
 		this.x = x;
 		this.y = y;
+		checkRep();
+	}
+	
+	/**
+	 * @requires key and value in coordinates != null.
+	 * @param coordinates the Pair that stores the x and y coordinates that
+	 * 		  will be stored.
+	 * @effect Constructs a new Location with the given coordinates, and empty
+	 * 		   shortName and longName.
+	 * @throws IllegalArgumentException if coordinates == null
+	 */
+	public Location(Pair<String, String> coordinates) {
+		if (coordinates == null) {
+			throw new IllegalArgumentException();
+		}
+		this.x = coordinates.getKey();
+		this.y = coordinates.getValue();
+		this.shortName = "";
+		this.longName = "";
+		checkRep();
 	}
 	
 	/**
@@ -83,6 +105,44 @@ public class Location {
 	 */
 	public String y() {
 		return y;
+	}
+	
+	/**
+	 * Returns whether this Location has name or not.
+	 * 
+	 * @return false if this Location has no shortName or longName,
+	 * 		   otherwise, true.
+	 */
+	public boolean hasName() {
+		return shortName.length() != 0 && longName.length() != 0;
+	}
+	
+	/**
+	 * Returns whether this Location is equals to other.
+	 * 
+	 * @param other the object to be compare.
+	 * @return true if other is of type Location and its x and y coordinates
+	 * 		   equals to that of this Location,
+	 * 		   otherwise, false.
+	 */
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof Location)) {
+			return false;
+		} else {
+			Location o = (Location) other;
+			return this.x.equals(o.x) && this.y.equals(o.y);
+		}
+	}
+	
+	/**
+	 * Returns the hash code of this Location.
+	 * 
+	 * @return the hash code of this Location.
+	 */
+	@Override
+	public int hashCode() {
+		return x.hashCode() * 7 + y.hashCode();
 	}
 	
 	/**
