@@ -47,7 +47,7 @@ public class DataParser {
 	 * 			each line contains exactly four tokens separated by a tab.
 	 */
 	public static void parseBuildingsData(String fileName, 
-			Set<Location> buildings) throws MalformedDataException {
+			Map<String, Location> buildings) throws MalformedDataException {
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(new FileReader(fileName));
@@ -71,7 +71,7 @@ public class DataParser {
 				String y = tokens[3];
 				
 				if (shortName != null && shortName.length() != 0) {
-					buildings.add(new Location(shortName, longName, x, y));
+					buildings.put(shortName, new Location(shortName, longName, x, y));
 				}
 			}
 		} catch (IOException e) {
@@ -103,10 +103,15 @@ public class DataParser {
 	 * @param paths the map in which all paths will be stored, typically empty
 	 * 		  the routine is called.
 	 * @modifies paths
-	 * @effects fills the map, paths, with key starting point of a path with a
+	 * @effects fills 'paths' with key starting point of a path with a
 	 * 			Pair storing x and y and its name and value. While the value of
 	 * 			paths is a Pair that stores another Pair of x and y as name and
 	 * 			a Double of distance as value.
+	 * 			Represent Pair as (A, B) where A is the key and B is the value.
+	 * 			For example, (a, b) is the start and (x1, y1), (x2, y2), ...
+	 * 			are position reachable from (a, b) and has distance d1, d2, ...
+	 * 			'paths' should look like:
+	 * 			(a, b) -> [((x1, y1), d1), ((x2, y2), d2), ...]
 	 * @throws MalformedDataException if the file is not well-formed as
 	 * 		   described in the method comments.
 	 */

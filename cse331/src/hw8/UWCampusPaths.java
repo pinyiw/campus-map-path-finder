@@ -1,10 +1,10 @@
 package hw8;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import hw5.Graph;
 import hw5.GraphNode;
@@ -15,32 +15,28 @@ import javafx.util.Pair;
 
 public class UWCampusPaths {
 	
-	public static Set<Location> loadBuildings(String buildingsFileName)
+	public static Map<String, Location> loadBuildings(String buildingsFileName)
 			throws MalformedDataException {
-		Set<Location> buildings = new HashSet<Location>();
+		Map<String, Location> buildings = new TreeMap<String, Location>();
 		DataParser.parseBuildingsData(buildingsFileName, buildings);
 		return buildings;
 	}
 	
-	public static Graph<Location, Double> loadGraph(Set<Location> buildings,
-			String pathsFileName) throws MalformedDataException {
+	public static Graph<Pair<String, String>, Double> loadGraph(String pathsFileName) 
+			throws MalformedDataException {
 		Map<Pair<String, String>, List<Pair<Pair<String, String>, Double>>> paths =
 				new HashMap<Pair<String, String>, List<Pair<Pair<String, String>, Double>>>();
 		DataParser.parsePathsData(pathsFileName, paths);
-		Graph<Location, Double> graph = new Graph<Location, Double>();
-		for (Location l: buildings) {
-			graph.addNode(new GraphNode<Location>(l));
-		}
+		Graph<Pair<String, String>, Double> graph = new Graph<Pair<String, String>, Double>();
+		
 		for (Pair<String, String> xy: paths.keySet()) {
-			GraphNode<Location> cur = new GraphNode<Location>(new Location(xy));
-			if (!graph.contains(cur)) {
-				graph.addNode(cur);
-			}
+			GraphNode<Pair<String, String>> cur = new GraphNode<Pair<String, String>>(xy);
+			graph.addNode(cur);
 			List<Pair<Pair<String, String>, Double>> curList = paths.get(xy);
 			for (int i = 0; i < curList.size(); i++) {
 				Pair<String, String> xy2 = curList.get(i).getKey();
 				Double dist = curList.get(i).getValue();
-				GraphNode<Location> dest = new GraphNode<Location>(new Location(xy2));
+				GraphNode<Pair<String, String>> dest = new GraphNode<Pair<String,String>>(xy2);
 				if (!graph.contains(dest)) {
 					graph.addNode(dest);
 				}
@@ -50,10 +46,9 @@ public class UWCampusPaths {
 		return graph;
 	}
 	
-	public static void findPath(Graph<Location, Double> graph, Location start,
-															Location dest) {
-		GraphNodePath<Location> gnp = MarvelPaths2.findPath(graph, start, dest);
-		
+	public static GraphNodePath<Pair<String, String>> findPath(Graph<Pair<String, String>,
+				Double> graph, Pair<String, String> start, Pair<String,String> dest) {
+		return MarvelPaths2.findPath(graph, start, dest);
 	}
 	
 }

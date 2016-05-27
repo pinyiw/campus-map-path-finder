@@ -63,6 +63,8 @@ public class MarvelPaths2 {
 	 * 		   p is a GraphNodePath that contains a list of GraphNode that is
 	 * 		   the shortest path (least total weight) that can reach char2 from
 	 * 		   char1.
+	 * 		   The list of GraphNode in p includes char1 and char2 as the first
+	 * 		   and last elements in the list respectively.
 	 */
 	public static <T> GraphNodePath<T> findPath(Graph<T, Double> graph,
 														T char1, T char2) {

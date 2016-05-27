@@ -101,7 +101,7 @@ public class GraphNodePath<T> {
 	/**
 	 * Checks that the representation invariant holds.
 	 */
-	public void checkRep() {
+	private void checkRep() {
 		assert (path != null) : "path equals to null";
 		assert (length != null) : "length equals to null";
 		for (int i = 0; i < path.size(); i++) {
