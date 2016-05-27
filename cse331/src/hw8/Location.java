@@ -52,25 +52,6 @@ public class Location {
 		checkRep();
 	}
 	
-//	/**
-//	 * @requires key and value in coordinates != null.
-//	 * @param coordinates the Pair that stores the x and y coordinates that
-//	 * 		  will be stored.
-//	 * @effect Constructs a new Location with the given coordinates, and empty
-//	 * 		   shortName and longName.
-//	 * @throws IllegalArgumentException if coordinates == null
-//	 */
-//	public Location(Pair<String, String> coordinates) {
-//		if (coordinates == null) {
-//			throw new IllegalArgumentException();
-//		}
-//		this.x = coordinates.getKey();
-//		this.y = coordinates.getValue();
-//		this.shortName = "";
-//		this.longName = "";
-//		checkRep();
-//	}
-	
 	/**
 	 * Returns the short name of this Location.
 	 * 

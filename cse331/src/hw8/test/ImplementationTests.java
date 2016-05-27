@@ -14,7 +14,9 @@ import org.junit.runners.Suite.*;
  */
 
 @RunWith(Suite.class)
-@SuiteClasses({ /* list classes here */ })
+@SuiteClasses({ DataParserTest.class,
+				LocationTest.class,
+				UWCampusPathsTest.class })
 
 public final class ImplementationTests
 {

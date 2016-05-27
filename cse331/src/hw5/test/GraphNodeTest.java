@@ -8,7 +8,7 @@ import hw5.GraphNode;
 
 /**
  * This class contains a set of test cases that can be used to test the
- * implementation of the GraphNode<String> class.
+ * implementation of the GraphNode class.
  * 
  * @author pinyiw
  */

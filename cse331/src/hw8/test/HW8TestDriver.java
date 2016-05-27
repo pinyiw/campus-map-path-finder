@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.PrintStream;
 
+import hw8.DataParser.MalformedDataException;
+import hw8.UWCampusPathMain;
+
 /**
  * This class can be used to test your Campus Paths main application. It
  * redirects System.out and System.in to input and output files, then invokes
@@ -28,7 +31,7 @@ public class HW8TestDriver {
         this.out = out;
     }
     
-    public void runTests() throws FileNotFoundException {
+    public void runTests() throws FileNotFoundException, MalformedDataException {
         // Store original values of I/O streams.
         InputStream stdin = System.in;
         PrintStream stdout = System.out;
@@ -38,9 +41,7 @@ public class HW8TestDriver {
         System.setIn(new FileInputStream(in));
         System.setOut(new PrintStream(out));
         
-        // TODO: add a line here to call your main method. For example, if your
-        // main class is called CampusPaths, write:
-        // CampusPaths.main(new String[0]);
+        UWCampusPathMain.main(new String[0]);
 
         // Restore standard I/O streams.
         System.setIn(stdin);

@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized.Parameters;
 
+import hw8.DataParser.MalformedDataException;
 import utils.tests.LabelledParameterized;
 import utils.tests.LabelledParameterized.Labels;
 
@@ -148,6 +149,7 @@ public class ScriptFileTests {
 
     /**
      * @throws IOException
+     * @throws MalformedDataException 
      * @requires there exists a test file indicated by testScriptFile
      *
      * @effects runs the test in filename, and output its results to a file in
@@ -155,7 +157,7 @@ public class ScriptFileTests {
      * exists, it will be overwritten.
      * @returns the contents of the output file
      */
-    private String runScriptFile() throws IOException {
+    private String runScriptFile() throws IOException, MalformedDataException {
         if (testScriptFile == null)
             throw new RuntimeException("No file specified");
 
@@ -183,9 +185,10 @@ public class ScriptFileTests {
     /**
      * The only test that is run: run a script file and test its output.
      * @throws IOException
+     * @throws MalformedDataException 
      */
     @Test(timeout=30000)
-    public void checkAgainstExpectedOutput() throws IOException {
+    public void checkAgainstExpectedOutput() throws IOException, MalformedDataException {
         File expected = fileWithSuffix("expected");
         assertEquals(testScriptFile.getName(), fileContents(expected), runScriptFile());
     }
