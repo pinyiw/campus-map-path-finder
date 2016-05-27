@@ -47,7 +47,7 @@ public final class UWCampusPathsTest {
 		Location second = buildings.get(end);
 		GraphNodePath<Pair<String, String>> gnp = 
 					uwcp.findPath(first.xy(), second.xy());
-		List list = gnp.getPath();
+		List<GraphNode<Pair<String, String>>> list = gnp.getPath();
 		assertEquals(list.size(), 25);
 		start = "CSE";
 		end = "PAB";
