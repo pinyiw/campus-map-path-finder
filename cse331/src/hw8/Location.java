@@ -1,6 +1,5 @@
 package hw8;
 
-import javafx.util.Pair;
 
 /**
  * <b>Location</b> represents a <b>immutable</b> location that has a short

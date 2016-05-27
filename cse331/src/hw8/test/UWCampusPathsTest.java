@@ -12,8 +12,8 @@ import hw5.GraphNode;
 import hw7.GraphNodePath;
 import hw8.DataParser.MalformedDataException;
 import hw8.Location;
+import hw8.Pair;
 import hw8.UWCampusPaths;
-import javafx.util.Pair;
 
 /**
  * This class contains a set of test cases that can be used to test the

@@ -10,7 +10,6 @@ import hw5.GraphNode;
 import hw7.GraphNodePath;
 import hw7.MarvelPaths2;
 import hw8.DataParser.MalformedDataException;
-import javafx.util.Pair;
 
 /**
  * The main class that find the shortest distance between buildings in UW.

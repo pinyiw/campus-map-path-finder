@@ -2,7 +2,6 @@ package hw8;
 import java.io.*;
 import java.util.*;
 
-import javafx.util.Pair;
 
 /**
  * Parser utility to load the UW map dataset.

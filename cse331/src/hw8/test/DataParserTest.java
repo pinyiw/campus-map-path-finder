@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import hw8.DataParser;
 import hw8.DataParser.MalformedDataException;
-import javafx.util.Pair;
 import hw8.Location;
+import hw8.Pair;
 
 /**
  * This class contains a set of test cases that can be used to test the
