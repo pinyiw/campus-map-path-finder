@@ -6,7 +6,7 @@ Name:  Pinyi Wang
 Describe which parts of your code belong to the model, the view,
 the controller, or none of these.  (See the assignment for details.)
 
-Model: DataParser.java, UWCampusPaths.java, Location.java
+Model: DataParser.java, UWCampusPaths.java, Location.java, Pair.java
 Controller: UWCampusPathMain: init(), printBuildings(), printRoute(), printMenu(),
 							  printUnknownOption()
 View: UWCampusMain: main()
