@@ -21,4 +21,18 @@ public class Pair<K, V> {
 	public V getValue() {
 		return value;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Pair)) {
+			return false;
+		}
+		Pair other = (Pair) o;
+		return this.key.equals(other.getKey()) && this.value.equals(other.getValue());
+	}
+	
+	@Override
+	public int hashCode() {
+		return key.hashCode() + value.hashCode();
+	}
 }

@@ -1,11 +1,11 @@
 package hw8.test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 import hw8.Location;
-import javafx.util.Pair;
+import hw8.Pair;
 
 /**
  * This class contains a set of test cases that can be used to test the
@@ -67,8 +67,8 @@ public final class LocationTest {
 		Location a = new Location("A", "a", "1", "2");
 		Location b = new Location("B", "b", "1", "1");
 		Location c = new Location("C", "c", "1", "3");
-		assertTrue(a.xy().equals(new Pair("1", "2")));
-		assertTrue(b.xy().equals(new Pair("1", "1")));
-		assertTrue(c.xy().equals(new Pair("1", "3")));
+		assertTrue(a.xy().equals(new Pair<String, String>("1", "2")));
+		assertTrue(b.xy().equals(new Pair<String, String>("1", "1")));
+		assertTrue(c.xy().equals(new Pair<String, String>("1", "3")));
 	}
 }
