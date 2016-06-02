@@ -6,8 +6,11 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -27,10 +30,10 @@ public class CampusPathsMain {
 	
 	public static void main(String[] args) {
 		frame = new JFrame("UW Campus Map");
-		
 		init();
-		
+
 		frame.pack();
+		frame.setSize(new Dimension(1480, 768));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
@@ -45,9 +48,20 @@ public class CampusPathsMain {
 		}
 		Map<String, Location> buildings = uwcp.getBuildingsInfo();
 		
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(new File("src/hw8/data/campus_map.jpg"));
+		} catch (Exception e) {
+			System.out.println("invalid file path");
+		}
 		
-		
-		JPanel panel = new UWMap("src/hw8/data/campus_map.jpg", 4.0);
+		Double scale = 4.0;
+		UWMap panel = new UWMap(image, scale);
+//		int width = (int)(image.getWidth() / 1);
+//		int height = (int)(image.getHeight() / 1);
+//		System.out.println("Width: " + width + " Height: " + height);
+		// 1082 741
+//		panel.setPreferredSize(new Dimension((int)(width / scale), (int)(height / scale)));
 		
 		String[] builds = new String[buildings.keySet().size()];
 		int count = 0;
@@ -57,8 +71,8 @@ public class CampusPathsMain {
 			count++;
 		}
 		
-		JComboBox first = new JComboBox(builds);
-		JComboBox second = new JComboBox(builds);
+		JComboBox<Object> first = new JComboBox<Object>(builds);
+		JComboBox<Object> second = new JComboBox<Object>(builds);
 		
 		JButton search = new JButton("Find Path");
 		search.addActionListener(new ActionListener() {
@@ -68,22 +82,17 @@ public class CampusPathsMain {
 				Pair<String, String> startXY = buildings.get(start[0]).xy();
 				Pair<String, String> destXY = buildings.get(dest[0]).xy();
 				GraphNodePath<Pair<String, String>> gnp = 
-					uwcp.findPath(startXY, destXY);
-				System.out.println(start[0] + " " + dest[0]);
-				Graphics2D g2 = (Graphics2D) panel.getGraphics();
-				g2.setColor(Color.yellow);
-				System.out.println((int)Double.parseDouble(startXY.getKey()) + " " +
-						(int)Double.parseDouble(startXY.getValue()));
-				int startX = (int)(Double.parseDouble(startXY.getKey()) / 4.0);
-				int startY = (int)(Double.parseDouble(startXY.getValue()) / 4.0);
-				g2.fillOval((int)Double.parseDouble(startXY.getKey()), 
-						(int)Double.parseDouble(startXY.getValue()), 100, 100);
+										uwcp.findPath(startXY, destXY);
+				int startX = (int)(Double.parseDouble(startXY.getKey()) / scale);
+				int startY = (int)(Double.parseDouble(startXY.getValue()) / scale);
+				int destX = (int)(Double.parseDouble(destXY.getKey()) / scale);
+				int destY = (int)(Double.parseDouble(destXY.getValue()) / scale);
+				panel.setPaintLocation(startX, startY, destX, destY);
 				frame.repaint();
 			}
 		});
 		
 		JPanel control = new JPanel();
-		control.setSize(new Dimension(276, 768));
 		control.setBackground(Color.gray);
 		control.add(first);
 		control.add(second);
