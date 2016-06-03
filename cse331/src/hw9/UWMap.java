@@ -55,6 +55,7 @@ public class UWMap extends JPanel implements ActionListener {
 		} catch (Exception e) {
 			System.out.println("invalid file path");
 		}
+		
 		this.first = first;
 		this.second = second;
 		for (String b: buildings.keySet()) {
