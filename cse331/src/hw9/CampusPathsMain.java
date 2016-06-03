@@ -1,12 +1,17 @@
 package hw9;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.*;
 
 public class CampusPathsMain {
 	
 	private static JFrame frame;
+	private static int x;
+	private static int y;
 	
 	public static void main(String[] args) {
 		frame = new JFrame("UW Campus Map");
@@ -25,7 +30,20 @@ public class CampusPathsMain {
 		second.addItem("Select Buildings...");
 		
 		UWMap panel = new UWMap(first, second);
-
+		panel.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent ev) {
+				x = ev.getX();
+				y = ev.getY();
+			}
+		});
+		panel.addMouseMotionListener(new MouseMotionAdapter() {
+			public void mouseDragged(MouseEvent e) {
+				int x1 = e.getXOnScreen() - x;
+				int y1 = e.getYOnScreen() - y;
+				panel.setLocation(x1, y1);
+			}
+		});
+		
 		JButton search = new JButton("Find Path");
 		search.setActionCommand("search");
 		search.addActionListener(panel);
