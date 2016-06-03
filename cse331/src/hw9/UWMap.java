@@ -85,8 +85,6 @@ public class UWMap extends JPanel implements ActionListener {
 			
 			int ovalSize = 20;
 			g2.setColor(Color.yellow);
-//			System.out.println(translate(startX, 10, minX) + " " + (int)(startY / scale - diffY));
-//			System.out.println((int)(destX / scale - diffX) + " " + (int)(destY / scale - diffY));
 			g2.drawOval(translate(startX, 10, minX), translate(startY, 10, minY), ovalSize, ovalSize);
 			g2.drawOval(translate(destX, 10, minX), translate(destY, 10, minY), ovalSize, ovalSize);
 			
@@ -104,7 +102,7 @@ public class UWMap extends JPanel implements ActionListener {
 		this.startY = startY;
 		this.destX = destX;
 		this.destY = destY;
-//		System.out.println("(" + startX + ", " + startY + "), (" + destX + ", " + destY + ")");
+
 		int width = image.getWidth();
 		int height = image.getHeight();
 		minX = - Math.min(startX, destX) - 100;
@@ -114,14 +112,9 @@ public class UWMap extends JPanel implements ActionListener {
 		double scaleX = ((maxX - minX) / ((width / SCALE) - minX));
 		double scaleY = ((maxY - minY) / ((height / SCALE) - minY));
 		
-//		System.out.println("minX: " + minX + " minY: " + minY);
-//		System.out.println("maxX: " + maxX + " maxY: " + maxY);
-		
 		scale = Math.max(scaleX, scaleY);
 		maxX = (int)(width / SCALE / scale);
 		maxY = (int)(height / SCALE / scale);
-//		System.out.println("scaleX: " + scaleX + " scaleY: " + scaleY);
-//		System.out.println("maxX: " + maxX + " maxY: " + maxY);
 		highlight = true;
 	}
 	
@@ -136,7 +129,6 @@ public class UWMap extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getActionCommand().equals("search")) {
 			String start = ((String)first.getSelectedItem()).split(": ")[0];
 			String dest = ((String)second.getSelectedItem()).split(": ")[0];

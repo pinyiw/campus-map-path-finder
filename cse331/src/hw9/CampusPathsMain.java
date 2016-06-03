@@ -34,13 +34,28 @@ public class CampusPathsMain {
 		reset.setActionCommand("reset");
 		reset.addActionListener(panel);
 		
+		JLabel top = new JLabel("Where do you want to go?");
+		JLabel label1 = new JLabel("From:");
+		JLabel label2 = new JLabel("To:");
+		top.setFont(new Font("", Font.BOLD, 20));
+		label1.setFont(new Font("", Font.BOLD, 20));
+		label2.setFont(new Font("", Font.BOLD, 20));
+		
+		top.setAlignmentX(Component.CENTER_ALIGNMENT);
+		label1.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		label2.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		search.setAlignmentX(Component.CENTER_ALIGNMENT);
+		reset.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		JPanel control = new JPanel();
-		control.setBackground(Color.gray);
+		control.setLayout(new BoxLayout(control, BoxLayout.Y_AXIS));
+		control.add(top);
+		control.add(label1);
 		control.add(first);
+		control.add(label2);
 		control.add(second);
 		control.add(search);
 		control.add(reset);
-		control.setLayout(new BoxLayout(control, BoxLayout.Y_AXIS));
 		
 		frame.add(panel, BorderLayout.CENTER);
 		frame.add(control, BorderLayout.EAST);
