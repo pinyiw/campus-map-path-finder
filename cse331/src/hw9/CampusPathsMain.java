@@ -1,32 +1,12 @@
 package hw9;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.Map;
+import java.awt.*;
 
-import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import hw7.GraphNodePath;
-import hw8.DataParser.MalformedDataException;
-import hw8.Location;
-import hw8.Pair;
-import hw8.UWCampusPaths;
+import javax.swing.*;
 
 public class CampusPathsMain {
 	
 	private static JFrame frame;
-	private static UWCampusPaths uwcp;
 	
 	public static void main(String[] args) {
 		frame = new JFrame("UW Campus Map");

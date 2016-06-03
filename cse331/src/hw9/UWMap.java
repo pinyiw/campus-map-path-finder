@@ -1,9 +1,6 @@
 package hw9;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -12,8 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import hw5.GraphNode;
 import hw7.GraphNodePath;
@@ -45,10 +41,8 @@ public class UWMap extends JPanel implements ActionListener {
 		try {
 			uwcp = new UWCampusPaths("src/hw8/data/campus_buildings.dat",
 					"src/hw8/data/campus_paths.dat");
-		} catch (MalformedDataException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (MalformedDataException e) {}
+
 		Map<String, Location> buildings = uwcp.getBuildingsInfo();
 		try {
 			image = ImageIO.read(new File("src/hw8/data/campus_map.jpg"));
